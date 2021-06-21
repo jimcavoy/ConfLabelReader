@@ -6,7 +6,7 @@
 #include <tchar.h>
 
 typedef unsigned char BYTE;
-#include "LibLabelReader/LabelReader.h"
+#include "LabelReader.h"
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	const int bufsize = tsPacketSize * 49; // Read multiple TS packets
 	std::basic_ifstream<BYTE> ifile;
 	BYTE buffer[bufsize];
-	LabelReader reader;
+	ThetaStream::LabelReader reader;
 	int packetsRead = 0;
 	int labelsRead = 0;
 

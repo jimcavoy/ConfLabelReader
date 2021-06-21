@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Pid2TypeMap.h"
 
-#include "libmp2t/tspmt.h"
+#include "libmp2t.h"
 
 namespace
 {

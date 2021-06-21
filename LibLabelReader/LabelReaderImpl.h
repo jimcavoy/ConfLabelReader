@@ -2,9 +2,7 @@
 #include "Pid2TypeMap.h"
 #include "AccessUnit.h"
 
-#include "libmp2t/tsprsr.h"
-#include "libmp2t/tspat.h"
-#include "libmp2t/tspmt.h"
+#include "libmp2t.h"
 
 #include <string>
 
