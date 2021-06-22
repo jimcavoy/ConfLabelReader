@@ -1,13 +1,20 @@
 cmake_minimum_required (VERSION 3.8)
+project(LibLabelReader)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 
 if (WIN32)
-    include_directories("C:/Program Files (x86)/GSL/include")
     include_directories("C:/Users/james/Documents/Work/Projects/LCSS/3rdParty/exip/include")
     include_directories("C:/Users/james/Documents/Work/Projects/LCSS/3rdParty/exip/build/vs2010")
     link_directories("C:/Users/james/Documents/Work/Projects/LCSS/Src/ConfBind/x64/Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DLIBLABELREADER_EXPORTS /D_USRDLL /D_WINDLL")
+    set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
 endif()
 
-include(${INSTALL_PREFIX}/lib/cmake/libmp2t/libmp2tTargets.cmake)
+include(${CMAKE_INSTALL_LIBDIR}/lib/cmake/libmp2t/libmp2tTargets.cmake)
 
 aux_source_directory(. SRC_LIST)
 add_library(LibLabelReader SHARED ${SRC_LIST})

@@ -66,7 +66,7 @@ void LabelReaderImpl::processStartPayload(const lcss::TransportPacket& pckt)
 		if (it->second != 0) // program 0 is assigned to Network Information Table
 		{
 			_pmt.clear();
-			_pmt.add({ data, pckt.data_byte() });
+			_pmt.add(data, pckt.data_byte());
 			// True if the PMT fits in one TS packet
 			if (_pmt.parse())
 			{
@@ -101,7 +101,7 @@ void LabelReaderImpl::processPayload(const lcss::TransportPacket& pckt)
 	auto it = _pat.find(pckt.PID());
 	if (it != _pat.end() && it->second != 0)
 	{
-		_pmt.add({ data, pckt.data_byte() });
+		_pmt.add(data, pckt.data_byte());
 		if (_pmt.parse())
 		{
 			_pmtHelper.update(_pmt);
