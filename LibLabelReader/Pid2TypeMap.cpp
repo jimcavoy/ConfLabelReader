@@ -1,3 +1,6 @@
+#ifdef WIN32
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 #include "pch.h"
 #include "Pid2TypeMap.h"
 
@@ -36,8 +39,8 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
 		{
 			char value[255];
 			char format_identifier[5];
-			SecureZeroMemory(value, 255);
-			SecureZeroMemory(format_identifier, 5);
+			memset(value, 0, 255);
+			memset(format_identifier, 0, 5);
 
 			for (auto desc : pe)
 			{
@@ -45,7 +48,7 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
 				if (desc.tag() == 0x05)
 				{
 					desc.value((BYTE*)value);
-					strncpy_s(format_identifier, value, 4);
+					strncpy(format_identifier, value, 4);
 					break;
 				}
 			}
@@ -63,7 +66,7 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
 		case 0x1B:
 		{
 			char value[255];
-			SecureZeroMemory(value, 255);
+			memset(value, 0, 255);
 			for (auto desc : pe)
 			{
 				// registration_descriptor

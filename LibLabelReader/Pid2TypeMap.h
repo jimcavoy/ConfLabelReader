@@ -1,6 +1,8 @@
 #pragma once
 #include <map>
 
+#include "LibLabelReader.h"
+
 namespace lcss
 {
 	class ProgramMapTable;

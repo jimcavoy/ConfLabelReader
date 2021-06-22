@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////
 namespace
 {
-	std::string printConfidentialityLabelXml(char* exiData, size_t len)
+	std::string printConfidentialityLabelXml(char* exiData, unsigned long len)
 	{
 		std::stringstream out;
 		XmlWriter decoder(out);
@@ -25,7 +25,7 @@ LabelReaderImpl::~LabelReaderImpl()
 {
 }
 
-void LabelReaderImpl::parse(const BYTE* stream, size_t len)
+void LabelReaderImpl::parse(const BYTE* stream, unsigned long len)
 {
 	_label.clear();
 	TSParser::parse(stream, len);

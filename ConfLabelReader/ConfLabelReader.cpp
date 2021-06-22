@@ -3,16 +3,14 @@
 
 #include <iostream>
 #include <fstream>
-#include <tchar.h>
 
-typedef unsigned char BYTE;
 #include "LabelReader.h"
 
 int main(int argc, char* argv[])
 {
 	const int tsPacketSize = 188;  // MPEG-2 TS packet size
 	const int bufsize = tsPacketSize * 49; // Read multiple TS packets
-	std::basic_ifstream<BYTE> ifile;
+	std::ifstream ifile;
 	BYTE buffer[bufsize];
 	ThetaStream::LabelReader reader;
 	int packetsRead = 0;
@@ -20,11 +18,11 @@ int main(int argc, char* argv[])
 
 	if (argc != 2)
 	{
-		std::cerr << "usage: LabelReader filename" << std::endl;
+		std::cerr << "usage: ConfLabelReader filename" << std::endl;
 		return -1;
 	}
 
-	ifile.open(argv[1], std::ios::in | std::ios::binary);
+	ifile.open(argv[1], std::ios::binary);
 	if (!ifile.is_open())
 	{
 		std::cerr << "error: failed to open file, " << argv[1] << std::endl;
@@ -33,12 +31,12 @@ int main(int argc, char* argv[])
 
 	while (ifile.good())
 	{
-		ifile.read(buffer, bufsize);
+		ifile.read((char*)buffer, bufsize);
 
 		std::streamsize len = ifile.gcount();
 		packetsRead += (int)len / tsPacketSize;
 
-		reader.parse(buffer, len);
+		reader.parse(buffer, (UINT32) len);
 		if (reader.hasLabelStream())
 		{
 			// Label can be null because the buffer had no label

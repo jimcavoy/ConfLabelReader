@@ -28,7 +28,7 @@ namespace ThetaStream
 		/// <param name="len">The number of bytes of the transport_stream
 		/// parameter.  It is recommended the len parameter should a multiple of 
 		/// 188 bytes.  For example, len = 188 * 49.</param>
-		void parse(const BYTE* transport_stream, size_t len);
+		void parse(const BYTE* transport_stream, unsigned long len);
 
 		/// <summary>
 		/// Call this function to determine if the stream passed into the parse()

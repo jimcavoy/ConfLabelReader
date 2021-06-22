@@ -1,3 +1,6 @@
+#ifdef WIN32
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 #include "pch.h"
 #include "LabelReader.h"
 
@@ -19,7 +22,7 @@ namespace ThetaStream
 		delete[] _label;
 	}
 
-	void LabelReader::parse(const BYTE* stream, size_t len)
+	void LabelReader::parse(const BYTE* stream, unsigned long len)
 	{
 		delete[] _label;
 		_label = nullptr;
@@ -29,7 +32,7 @@ namespace ThetaStream
 		if (!temp.empty())
 		{
 			_label = new char[temp.length() + 1];
-			strcpy_s(_label, temp.length() + 1, temp.c_str());
+			strcpy(_label, temp.c_str());
 		}
 	}
 

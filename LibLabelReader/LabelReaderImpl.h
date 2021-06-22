@@ -13,7 +13,7 @@ public:
 	LabelReaderImpl();
 	~LabelReaderImpl();
 
-	virtual void parse(const BYTE* stream, size_t len);
+	virtual void parse(const BYTE* stream, unsigned long len);
 
 	virtual void onPacket(lcss::TransportPacket& pckt);
 

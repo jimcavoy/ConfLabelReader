@@ -3,6 +3,12 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+if (WIN32)
+    set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
+else()
+    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/bin/lib")
+endif()
+
 # Add source to this project's executable.
 add_executable (ConfLabelReader "ConfLabelReader.cpp" )
 
