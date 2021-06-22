@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 if (WIN32)
-    include_directories("C:/Users/james/Documents/Work/Projects/LCSS/3rdParty/exip/include")
-    include_directories("C:/Users/james/Documents/Work/Projects/LCSS/3rdParty/exip/build/vs2010")
-    link_directories("C:/Users/james/Documents/Work/Projects/LCSS/Src/ConfBind/x64/Debug")
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010")
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/include")
+    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010/x64/Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DLIBLABELREADER_EXPORTS /D_USRDLL /D_WINDLL")
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
 else()
