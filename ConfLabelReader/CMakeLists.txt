@@ -9,6 +9,7 @@ if (WIN32)
     link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010/x64/Debug")
 else()
     link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/bin/lib")
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 endif()
 
 # Add source to this project's executable.

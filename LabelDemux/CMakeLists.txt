@@ -39,7 +39,7 @@ install(TARGETS LabelDemux
 
 install(FILES
     LabelDemux.h
-    ${PROJECT_BINARY_DIR}/labeldemux_export.h  DESTINATION include)
+    ${CMAKE_CURRENT_SOURCE_DIR}/labeldemux_export.h  DESTINATION include)
 
 # generate and install export file
 install(EXPORT LabelDemuxTargets
