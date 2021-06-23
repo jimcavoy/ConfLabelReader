@@ -8,3 +8,4 @@ project ("ConfLabelReader")
 # Include sub-projects.
 add_subdirectory ("ConfLabelReader")
 add_subdirectory ("LabelDemux")
+add_subdirectory ("exi2xml")

@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "LabelDemux.h"
+#include "XmlWriter.h"
 
 void printLabel(const BYTE* label, UINT32 len);
 
@@ -62,8 +64,8 @@ int main(int argc, char* argv[])
 
 void printLabel(const BYTE* label, UINT32 length)
 {
-	for (UINT32 i = 0; i < length; i++)
-	{
-		std::cout << label[i];
-	}
+	std::stringstream out;
+	ThetaStream::XmlWriter decoder(out);
+	decoder.decode((char*)label, length);
+	std::cout << out.str();
 }

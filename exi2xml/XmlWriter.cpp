@@ -97,33 +97,36 @@ namespace
 	int nsCount = 1;
 }
 
-XmlWriter::XmlWriter(std::ostream& file)
-	:_ofile(file)
+namespace ThetaStream
 {
-}
-
-XmlWriter::~XmlWriter()
-{
-}
-
-int XmlWriter::decode(char* buffer, size_t len)
-{
-	struct appData parsingData;
-	errorCode ret = decodeImpl(buffer, len, &parsingData);
-
-	if (ret == EXIP_OK)
+	XmlWriter::XmlWriter(std::ostream& file)
+		:_ofile(file)
 	{
-		_ofile << parsingData.strm.str();
-	}
-	else
-	{
-		std::string msg("\nFailed to parse EXI file.  Error Code = ");
-		msg += GET_ERR_STRING(ret);
-		_ofile << msg;
-		return 1;
 	}
 
-	return 0;
+	XmlWriter::~XmlWriter()
+	{
+	}
+
+	int XmlWriter::decode(char* buffer, unsigned int len)
+	{
+		struct appData parsingData;
+		errorCode ret = decodeImpl(buffer, len, &parsingData);
+
+		if (ret == EXIP_OK)
+		{
+			_ofile << parsingData.strm.str();
+		}
+		else
+		{
+			std::string msg("\nFailed to parse EXI file.  Error Code = ");
+			msg += GET_ERR_STRING(ret);
+			_ofile << msg;
+			return 1;
+		}
+
+		return 0;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

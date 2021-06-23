@@ -1,20 +1,8 @@
 #include "pch.h"
 #include "LabelDemuxImpl.h"
 
-#include "XmlWriter.h"
-
 #include <sstream>
 /////////////////////////////////////////////////////////////////////////////
-namespace
-{
-	std::string printConfidentialityLabelXml(char* exiData, unsigned long len)
-	{
-		std::stringstream out;
-		XmlWriter decoder(out);
-		decoder.decode(exiData, len);
-		return out.str();
-	}
-}
 
 LabelDemuxImpl::LabelDemuxImpl()
 	:_hasLabel(true)
