@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "LabelReader.h"
+#include "LabelDemux.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	const int bufsize = tsPacketSize * 49; // Read multiple TS packets
 	std::ifstream ifile;
 	BYTE buffer[bufsize];
-	ThetaStream::LabelReader reader;
+	ThetaStream::LabelDemux reader;
 	int packetsRead = 0;
 	int labelsRead = 0;
 

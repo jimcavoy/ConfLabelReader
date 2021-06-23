@@ -7,4 +7,4 @@ project ("ConfLabelReader")
 
 # Include sub-projects.
 add_subdirectory ("ConfLabelReader")
-add_subdirectory ("LibLabelReader")
+add_subdirectory ("LabelDemux")

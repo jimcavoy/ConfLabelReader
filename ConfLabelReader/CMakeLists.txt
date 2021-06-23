@@ -12,7 +12,7 @@ endif()
 # Add source to this project's executable.
 add_executable (ConfLabelReader "ConfLabelReader.cpp" )
 
-list(APPEND EXTRA_LIBS LibLabelReader)
+list(APPEND EXTRA_LIBS LabelDemux)
 
 target_link_libraries(ConfLabelReader PUBLIC ${EXTRA_LIBS})
 
