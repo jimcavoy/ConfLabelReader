@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 
-#include "LibLabelReader.h"
+#include "LabelDemuxTypes.h"
 
 namespace lcss
 {

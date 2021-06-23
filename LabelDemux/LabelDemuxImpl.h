@@ -4,8 +4,6 @@
 
 #include "libmp2t.h"
 
-#include <string>
-
 class LabelDemuxImpl :
 	public lcss::TSParser
 {
@@ -19,19 +17,18 @@ public:
 
 	bool hasLabel() const;
 
-	std::string label() const;
+	const AccessUnit& label() const;
 
 private:
 	void processStartPayload(const lcss::TransportPacket& pckt);
 	void processPayload(const lcss::TransportPacket& pckt);
-	void processLabel();
 
 private:
 	lcss::ProgramAssociationTable _pat;
 	lcss::ProgramMapTable _pmt;
 	Pid2TypeMap _pmtHelper;
 	AccessUnit _exiSample;
+	AccessUnit _label;
 	bool _hasLabel;
-	std::string _label;
 };
 

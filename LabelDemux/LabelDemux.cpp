@@ -12,6 +12,7 @@ namespace ThetaStream
 	LabelDemux::LabelDemux()
 		:_pimpl(new LabelDemuxImpl)
 		, _label(nullptr)
+		, _length(0)
 	{
 
 	}
@@ -22,17 +23,19 @@ namespace ThetaStream
 		delete[] _label;
 	}
 
-	void LabelDemux::parse(const BYTE* stream, unsigned long len)
+	void LabelDemux::parse(const BYTE* stream, UINT32 len)
 	{
 		delete[] _label;
 		_label = nullptr;
+		_length = 0;
 		_pimpl->parse(stream, len);
 
-		std::string temp = _pimpl->label();
-		if (!temp.empty())
+		const AccessUnit& au = _pimpl->label();
+		if (au.length() > 0)
 		{
-			_label = new char[temp.length() + 1];
-			strcpy(_label, temp.c_str());
+			_label = new BYTE[au.length()];
+			_length = au.length();
+			std::copy(au.begin(), au.end(), _label);
 		}
 	}
 
@@ -41,8 +44,12 @@ namespace ThetaStream
 		return _pimpl->hasLabel();
 	}
 
-	const char* LabelDemux::label() const
+	const BYTE* LabelDemux::label() const
 	{
 		return _label;
+	}
+	UINT32 LabelDemux::labelSize() const
+	{
+		return _length;
 	}
 }

@@ -13,6 +13,8 @@ public:
 public:
 	AccessUnit();
 	AccessUnit(char* sodb, unsigned int len);
+	AccessUnit(const AccessUnit& src);
+	AccessUnit& operator=(const AccessUnit& rhs);
 	~AccessUnit();
 
 	void insert(char* sodb, unsigned int len);
@@ -28,6 +30,9 @@ public:
 	const_iterator end() const { return _sodb.end(); }
 
 	char* data() { return _sodb.data(); }
+
+private:
+	void swap(AccessUnit& src);
 
 private:
 	sodb_type _sodb;  //string of data bits

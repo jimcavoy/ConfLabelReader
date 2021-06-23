@@ -48,7 +48,7 @@ bool LabelDemuxImpl::hasLabel() const
 	return _hasLabel;
 }
 
-std::string LabelDemuxImpl::label() const
+const AccessUnit& LabelDemuxImpl::label() const
 {
 	return _label;
 }
@@ -83,10 +83,7 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
 		{
 			if (_pmtHelper.packetType(pckt.PID()) == Pid2TypeMap::STREAM_TYPE::$EXI)
 			{
-				if (_exiSample.length() > 0)
-				{
-					processLabel();
-				}
+				_label = _exiSample;
 				_exiSample.clear();
 				_exiSample.insert((char*)data + bytesParsed, pckt.data_byte() - bytesParsed);
 			}
@@ -115,7 +112,4 @@ void LabelDemuxImpl::processPayload(const lcss::TransportPacket& pckt)
 	}
 }
 
-void LabelDemuxImpl::processLabel()
-{
-	_label = printConfidentialityLabelXml(_exiSample.data(), _exiSample.length());
-}
+

@@ -1,12 +1,8 @@
 #pragma once
 #include "labeldemux_export.h"
+#include "LabelDemuxTypes.h"
 
 class LabelDemuxImpl;
-
-typedef unsigned char BYTE;
-typedef unsigned short UINT16;
-typedef unsigned int UINT32;
-typedef unsigned long long UINT64;
 
 /// <summary>
 /// LabelDemux reads sequence of bytes from a MPEG-2 Transport Stream and
@@ -33,7 +29,7 @@ namespace ThetaStream
 		/// <param name="len">The number of bytes of the transport_stream
 		/// parameter.  It is recommended the len parameter should a multiple of 
 		/// 188 bytes.  For example, len = 188 * 49.</param>
-		void parse(const BYTE* transport_stream, unsigned long len);
+		void parse(const BYTE* transport_stream, UINT32 len);
 
 		/// <summary>
 		/// Call this function to determine if the stream passed into the parse()
@@ -49,11 +45,18 @@ namespace ThetaStream
 		/// invocation.  Can be null if no label was found in the last parse() call.
 		/// </summary>
 		/// <returns>Returns XML label; otherwise, null.</returns>
-		const char* label() const;
+		const BYTE* label() const;
+
+		/// <summary>
+		/// Returns the size of the label in bytes. 
+		/// </summary>
+		/// <returns></returns>
+		UINT32 labelSize() const;
 
 	private:
 		LabelDemuxImpl* _pimpl;
-		char* _label;
+		BYTE* _label;
+		UINT32 _length;
 	};
 
 }
