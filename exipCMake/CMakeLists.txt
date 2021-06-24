@@ -24,14 +24,11 @@ include_directories("./src/grammar/include")
 include_directories("./src/grammarGen/include")
 include_directories("./src/streamIO/include")
 include_directories("./src/stringTables/include")
+include_directories("./build/gcc/pc")
+list(APPEND LIB_INCLUDE_FILES "./build/gcc/pc/exipConfig.h")
 
 if (WIN32)
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
-    include_directories("./build/gcc/pc")
-    list(APPEND LIB_INCLUDE_FILES "./build/gcc/pc/exipConfig.h")
-else()
-	include_directories("./build/gcc/contiki")
-    list(APPEND LIB_INCLUDE_FILES "./build/gcc/contiki/exipConfig.h")
 endif()
 
 target_include_directories(exip
@@ -39,7 +36,6 @@ target_include_directories(exip
           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
           "$<INSTALL_INTERFACE:include>"
           )
-
 
 # install the target and create export-set
 install(TARGETS exip 
