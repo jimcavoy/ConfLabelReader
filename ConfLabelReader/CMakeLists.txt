@@ -6,23 +6,18 @@ project(ConfLabelReader)
 
 if (WIN32)
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
-    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010/x64/Debug")
 else()
-    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/bin/lib")
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 endif()
+
+include(${CMAKE_INSTALL_LIBDIR}/lib/cmake/exip/exipTargets.cmake)
 
 # Add source to this project's executable.
 add_executable (ConfLabelReader "ConfLabelReader.cpp" )
 
-list(APPEND EXTRA_LIBS LabelDemux exi2xml)
+list(APPEND EXTRA_LIBS LabelDemux exi2xml exip)
 
 target_link_libraries(ConfLabelReader PUBLIC ${EXTRA_LIBS})
-if (WIN32)
-    target_link_libraries(ConfLabelReader PRIVATE exip.lib)
-else()
-    target_link_libraries(ConfLabelReader PRIVATE libexip.a)
-endif()
 
 # TODO: Add tests and install targets if needed.
 install(TARGETS ConfLabelReader 

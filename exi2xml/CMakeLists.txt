@@ -9,23 +9,11 @@ if (WIN32)
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
 endif()
 
+include(${CMAKE_INSTALL_LIBDIR}/lib/cmake/exip/exipTargets.cmake)
+
 aux_source_directory(. SRC_LIST)
 add_library(exi2xml STATIC ${SRC_LIST})
-
-if (WIN32)
-    target_link_libraries(exi2xml PRIVATE exip.lib)
-else()
-    target_link_libraries(exi2xml PRIVATE libexip.a)
-endif()
-
-if(WIN32)
-    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010")
-    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/include")
-    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/build/vs2010/x64/Debug")
-else()
-    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/bin/headers")
-    link_directories("${CMAKE_CURRENT_SOURCE_DIR}/../exip/bin/lib")
-endif()
+target_link_libraries(exi2xml PRIVATE exip)
 
 target_include_directories(exi2xml
           PUBLIC 
