@@ -12,7 +12,7 @@ the label to XML.  The library has an external dependency on
 [libmp2t library](https://github.com/jimcavoy/mp2tp).
 
 * __exi2xml__: A library to transcode EXI encoded labels to XML.  The library is
-generic, and decode EXI labels based on different XML schemas.  The library has 
+generic, and can decode EXI labels based on different XML schemas.  The library has 
 an external dependency on [EXIP library](https://github.com/rwl/exip).
 
 * __ConfLabelReader__: A test application that reads MPEG-2 transport stream, and
