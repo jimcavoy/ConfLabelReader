@@ -1,5 +1,6 @@
 # EXIP cmake file
-The ConfLabelReader project requires EXIP library (Embeddable EXI Processor in C), http://exip.sourceforge.net/.
+The ConfLabelReader project requires EXIP library [Embeddable EXI Processor in C](http://exip.sourceforge.net/).
+This folder contains a CMake file to assist in building the library on Windows and Linux.  
 
 Steps to build EXIP library:
 
@@ -9,4 +10,5 @@ Steps to build EXIP library:
 
 3. Use cmake to build and install the exip library.
 
-Only tested when using Visual Studio 2019 to build on Windows and Linux.
+We only tested this procedure when running Visual Studio 2019 on Windows to 
+build EXIP library on both Windows and Linux.
