@@ -1,22 +1,23 @@
 # ConfLabelReader
-STANAG 4774/4778 Confidentiality Metadata Label reader project.  The purpose of
-the reader is to extract Confidentiality Metadata Labels from a STANAG 4609
-Motion Imagery stream.
+The ConfLabelReader project is a collection of libraries and a tool to extract 
+STANAG 4774/4778 Confidentiality Metadata Labels from a STANAG 4609 Motion
+Imagery stream.
 
-The reader is composed of mutiple projects which are as follows:
+The project is composed of mutiple sub-projects which are as follows:
 
 * __LabelDemux__: A library that demultiplexes the MPEG-2 transport stream, and 
 extracts the label.  The label is EXI encoded, and has to be transcoded to XML
 if it needs to be human readable.  The `exi2xml` library can be used to transcode
-the label to XML.  The library has an external dependency on 
+the label to XML.  This library has an external dependency on 
 [libmp2t library](https://github.com/jimcavoy/mp2tp).
 
 * __exi2xml__: A library to transcode EXI encoded labels to XML text format.  The library is
-generic, and can decode EXI labels based on different XML schemas.  The library has 
+generic, and can decode EXI labels based on different XML schemas.  This library has 
 an external dependency on [EXIP library](https://github.com/rwl/exip).
 
-* __ConfLabelReader__: A test application that reads MPEG-2 transport stream, and
-prints XML label to standard console out.
+* __ConfLabelReader__: A tool that reads a MPEG-2 transport stream file, and
+prints Confidentiality Metadata Label in XML to standard console out.  The tool is 
+depended on `exi2xml` and `LabelDemux` libraries.
 
-You can build these libraries and application, and run them on both Windows 
-and Linux host machines.
+The project is cross-platform, and can be build and run on both Windows and
+Linux platforms.
