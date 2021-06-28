@@ -8,36 +8,75 @@
 #include "LabelDemux.h"
 #include "XmlWriter.h"
 
-void printLabel(const BYTE* label, UINT32 len);
+// Forward declarations
+void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 len);
+bool canStop(int num, int limit);
 
+// main
 int main(int argc, char* argv[])
 {
+	using namespace std;
 	const int tsPacketSize = 188;  // MPEG-2 TS packet size
 	const int bufsize = tsPacketSize * 49; // Read multiple TS packets
-	std::ifstream ifile;
+	std::string ifile;
+	std::string ofile;
 	BYTE buffer[bufsize];
 	ThetaStream::LabelDemux demux;
 	int packetsRead = 0;
 	int labelsRead = 0;
+	char c;
+	int limit = 0;
 
-	if (argc != 2)
+	const char* usage = "Usage: ConfLabelReder -i<MPEG_transport_stream_file> -n<Count> -o<Output_file>";
+	const char* opts = "  -i\tInput MPEG transport stream file path.\n  -n\tThe minimum number of labels to read from the input file before exiting.\n    \tSet to zero to read all. (default: 0).\n  -o\tOptional output file name (default: console).\n  -?\tPrint this message.";
+
+	while (--argc > 0 && (*++argv)[0] == '-')
 	{
-		std::cout << "usage: ConfLabelReader <MPEG_transport_stream_file>" << std::endl;
+		c = *++argv[0];
+		switch (c)
+		{
+		case 'i':
+			ifile = *argv + 1;
+			break;
+		case 'o':
+			ofile = *argv + 1;
+			break;
+		case 'n':
+			limit = std::stoi(*argv + 1);
+			break;
+		case '?':
+			cout << usage << endl;
+			cout << endl << "Options: " << endl;
+			cout << opts << endl;
+			return 0;
+			break;
+		default:
+			cout << "ConfLabelReader: illegal option " << c << endl;
+			return -1;
+		}
+	}
+
+	if (argc == 0 && ifile.empty())
+	{
+		cout << usage << endl;
 		return -1;
 	}
 
-	ifile.open(argv[1], std::ios::binary);
-	if (!ifile.is_open())
+	ifstream tsfile;
+	tsfile.open(ifile, std::ios::binary);
+	if (!tsfile.is_open())
 	{
-		std::cout << "error: failed to open file, " << argv[1] << std::endl;
+		cout << "Error: Fail to open input file, " << ifile << endl;
 		return -1;
 	}
 
-	while (ifile.good())
-	{
-		ifile.read((char*)buffer, bufsize);
+	ofstream oStream(ofile);
 
-		std::streamsize len = ifile.gcount();
+	while (tsfile.good())
+	{
+		tsfile.read((char*)buffer, bufsize);
+
+		std::streamsize len = tsfile.gcount();
 		packetsRead += (int)len / tsPacketSize;
 
 		demux.parse(buffer, (UINT32) len);
@@ -46,13 +85,26 @@ int main(int argc, char* argv[])
 			// Label can be null because the buffer had no label
 			if (demux.label() != nullptr)
 			{
-				printLabel(demux.label(), demux.labelSize());
+				if (oStream.is_open())
+				{
+					printLabel(oStream, demux.label(), demux.labelSize());
+				}
+				else
+				{
+					printLabel(cout, demux.label(), demux.labelSize());
+				}
+				
 				labelsRead++;
+			}
+
+			if (canStop(labelsRead, limit))
+			{
+				break;
 			}
 		}
 		else
 		{
-			std::cout << "No label in motion imagery file, " << argv[1] << std::endl;
+			std::cout << "No label in motion imagery file, " << ifile << std::endl;
 			break;
 		}
 	}
@@ -62,10 +114,17 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void printLabel(const BYTE* label, UINT32 length)
+void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 length)
 {
 	std::stringstream out;
 	ThetaStream::XmlWriter decoder(out);
 	decoder.decode((char*)label, length);
-	std::cout << out.str();
+	ostrm << out.str();
+}
+
+bool canStop(int num, int limit)
+{
+	if (limit == 0)
+		return false;
+	return num >= limit ? true : false;
 }
