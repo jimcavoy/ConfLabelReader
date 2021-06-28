@@ -19,7 +19,7 @@ list(APPEND EXTRA_LIBS LabelDemux exi2xml exip)
 
 target_link_libraries(ConfLabelReader PUBLIC ${EXTRA_LIBS})
 
-# TODO: Add tests and install targets if needed.
+# Install targets
 install(TARGETS ConfLabelReader 
     EXPORT ConfLabelReaderTargets
     LIBRARY DESTINATION lib

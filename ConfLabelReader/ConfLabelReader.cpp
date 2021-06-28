@@ -22,14 +22,14 @@ int main(int argc, char* argv[])
 
 	if (argc != 2)
 	{
-		std::cerr << "usage: ConfLabelReader <MPEG_transport_stream_file>" << std::endl;
+		std::cout << "usage: ConfLabelReader <MPEG_transport_stream_file>" << std::endl;
 		return -1;
 	}
 
 	ifile.open(argv[1], std::ios::binary);
 	if (!ifile.is_open())
 	{
-		std::cerr << "error: failed to open file, " << argv[1] << std::endl;
+		std::cout << "error: failed to open file, " << argv[1] << std::endl;
 		return -1;
 	}
 
@@ -57,8 +57,8 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	std::cerr << "Labels read: " << labelsRead << std::endl;
-	std::cerr << "TS Packets read: " << packetsRead << std::endl;
+	std::cout << "Labels read: " << labelsRead << std::endl;
+	std::cout << "TS Packets read: " << packetsRead << std::endl;
 	return 0;
 }
 
