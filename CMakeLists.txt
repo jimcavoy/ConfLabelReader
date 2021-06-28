@@ -19,5 +19,33 @@ add_test(NAME Usage
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux
 	)
 set_tests_properties(Usage
-	PROPERTIES PASS_REGULAR_EXPRESSION "usage: ConfLabelReader <MPEG_transport_stream_file>"
+	PROPERTIES PASS_REGULAR_EXPRESSION "Usage: ConfLabelReder -i<MPEG_transport_stream_file> -n<Count> -o<Output_file>"
+	)
+
+add_test(NAME ReadN
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/sample/foreman_cif_klv_4774.ts -n5 -olabels.txt
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux
+	)
+set_tests_properties(ReadN
+	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 5
+TS Packets read: 1764"
+	)
+
+add_test(NAME ReadAll
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/sample/foreman_cif_klv_4774.ts -olabels.txt
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux
+	)
+set_tests_properties(ReadAll
+	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
+TS Packets read: 4258"
+	)
+
+add_test(NAME NoLabel
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/sample/foreman_cif_klv.ts -olabels.txt
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux
+	)
+set_tests_properties(NoLabel
+	PROPERTIES PASS_REGULAR_EXPRESSION "No label in motion imagery file, foreman_cif_klv.ts
+Labels read: 0
+TS Packets read: 49"
 	)

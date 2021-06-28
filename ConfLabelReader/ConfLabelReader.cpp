@@ -11,6 +11,7 @@
 // Forward declarations
 void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 len);
 bool canStop(int num, int limit);
+std::string getFilename(std::string& path);
 
 // main
 int main(int argc, char* argv[])
@@ -66,7 +67,7 @@ int main(int argc, char* argv[])
 	tsfile.open(ifile, std::ios::binary);
 	if (!tsfile.is_open())
 	{
-		cout << "Error: Fail to open input file, " << ifile << endl;
+		cout << "Error: Fail to open input file, " << getFilename(ifile) << endl;
 		return -1;
 	}
 
@@ -104,7 +105,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			std::cout << "No label in motion imagery file, " << ifile << std::endl;
+			std::cout << "No label in motion imagery file, " << getFilename(ifile) << std::endl;
 			break;
 		}
 	}
@@ -127,4 +128,18 @@ bool canStop(int num, int limit)
 	if (limit == 0)
 		return false;
 	return num >= limit ? true : false;
+}
+
+std::string getFilename(std::string& path)
+{
+	std::string fname;
+	std::string::const_reverse_iterator it;
+	for (it = path.rbegin(); it != path.rend(); ++it)
+	{
+		if (*it == '\\' || *it == '/')
+			break;
+		fname.push_back(*it);
+	}
+	std::reverse(fname.begin(), fname.end());
+	return fname;
 }
