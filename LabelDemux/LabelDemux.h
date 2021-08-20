@@ -20,7 +20,7 @@ namespace ThetaStream
 		~LabelDemux();
 
 		/// <summary>
-		/// Parse the input btye stream and extract the Confidentiality Metadata
+		/// Parse the input byte stream and extract the Confidentiality Metadata
 		/// Label.  Call the label() function after this function returns to 
 		/// retrieve the Confidentiality Metadata Label.
 		/// </summary>
@@ -41,7 +41,7 @@ namespace ThetaStream
 		bool hasLabelStream() const;
 
 		/// <summary>
-		/// Retruns the Confidentiality Metadata Label in XML from the last parse()
+		/// Returns the Confidentiality Metadata Label in XML from the last parse()
 		/// invocation.  Can be null if no label was found in the last parse() call.
 		/// </summary>
 		/// <returns>Returns XML label; otherwise, null.</returns>
