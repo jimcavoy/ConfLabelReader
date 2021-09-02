@@ -8,7 +8,7 @@ The project is composed of multiple sub-projects which are as follows:
 * __LabelDemux__: A library that demultiplexes the MPEG-2 transport stream, and 
 extracts the label.  The label is EXI encoded, and has to be transcoded to XML
 if it needs to be human readable.  The `exi2xml` library can be used to transcode
-the label to XML.  __LabelDemux__ library has an external dependency on 
+the label to XML.  `LabelDemux` library has an external dependency on 
 [libmp2t library](https://github.com/jimcavoy/mp2tp).
 
 * __exi2xml__: A library to transcode EXI encoded labels to XML text format.  The library is
