@@ -14,13 +14,6 @@ add_subdirectory ("exi2xml")
 enable_testing()
 
 message("Working dir: ${CMAKE_CURRENT_BINARY_DIR}")
-add_test(NAME Usage 
-	COMMAND ConfLabelReader
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux
-	)
-set_tests_properties(Usage
-	PROPERTIES PASS_REGULAR_EXPRESSION "Usage: ConfLabelReder -i<MPEG_transport_stream_file> -n<Count> -o<Output_file>"
-	)
 
 add_test(NAME ReadN
 	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -olabels.txt

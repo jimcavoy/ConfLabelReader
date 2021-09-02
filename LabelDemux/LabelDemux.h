@@ -22,7 +22,7 @@ namespace ThetaStream
 		/// <summary>
 		/// Parse the input byte stream and extract the Confidentiality Metadata
 		/// Label.  Call the label() function after this function returns to 
-		/// retrieve the Confidentiality Metadata Label.
+		/// retrieve the EXI encoded Confidentiality Metadata Label.
 		/// </summary>
 		/// <param name="transport_stream">An array of bytes containing 
 		/// MPEG-2 Transport Stream</param>
@@ -41,10 +41,10 @@ namespace ThetaStream
 		bool hasLabelStream() const;
 
 		/// <summary>
-		/// Returns the Confidentiality Metadata Label in XML from the last parse()
+		/// Returns an EXI encoded Confidentiality Metadata Label from the last parse()
 		/// invocation.  Can be null if no label was found in the last parse() call.
 		/// </summary>
-		/// <returns>Returns XML label; otherwise, null.</returns>
+		/// <returns>Returns EXI encoded label; otherwise, null.</returns>
 		const BYTE* label() const;
 
 		/// <summary>

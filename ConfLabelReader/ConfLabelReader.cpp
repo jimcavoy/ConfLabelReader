@@ -5,6 +5,8 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <io.h>
+#include <fcntl.h>
 
 #include "LabelDemux.h"
 #include "XmlWriter.h"
@@ -30,7 +32,11 @@ int main(int argc, char* argv[])
 	int limit = 0;
 
 	const char* usage = "Usage: ConfLabelReder -i<MPEG_transport_stream_file> -n<Count> -o<Output_file>";
-	const char* opts = "  -i\tInput MPEG transport stream file path.\n  -n\tThe minimum number of labels to read from the input file before exiting.\n    \tSet to zero to read all. (default: 0).\n  -o\tOptional output file name (default: console).\n  -?\tPrint this message.";
+	const char* opts = "  -i\tInput MPEG transport stream file path.\n \
+ -n\tThe minimum number of labels to read from the input file before exiting.\n \
+   \tSet to zero to read all. (default: 0).\n \
+ -o\tOptional output file name (default: console).\n \
+ -?\tPrint this message.";
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 	{
@@ -58,27 +64,31 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	if (argc == 0 && ifile.empty())
+	shared_ptr<istream> input;
+	// read file from stdin
+	if (ifile.empty())
 	{
-		cout << usage << endl;
-		return -1;
+		_setmode(_fileno(stdin), _O_BINARY);
+		input.reset(&cin, [](...) {});
 	}
-
-	ifstream tsfile;
-	tsfile.open(ifile, std::ios::binary);
-	if (!tsfile.is_open())
+	else // read the file
 	{
-		cout << "Error: Fail to open input file, " << getFilename(ifile) << endl;
-		return -1;
+		ifstream* tsfile = new ifstream(ifile, std::ios::binary);
+		if (!tsfile->is_open())
+		{
+			cout << "Error: Fail to open input file, " << getFilename(ifile) << endl;
+			return -1;
+		}
+		input.reset(tsfile);
 	}
 
 	ofstream oStream(ofile);
 
-	while (tsfile.good())
+	while (input->good())
 	{
-		tsfile.read((char*)buffer, bufsize);
+		input->read((char*)buffer, bufsize);
 
-		std::streamsize len = tsfile.gcount();
+		std::streamsize len = input->gcount();
 		packetsRead += (int)len / tsPacketSize;
 
 		demux.parse(buffer, (UINT32) len);
@@ -95,7 +105,6 @@ int main(int argc, char* argv[])
 				{
 					printLabel(cout, demux.label(), demux.labelSize());
 				}
-				
 				labelsRead++;
 			}
 
