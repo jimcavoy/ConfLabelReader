@@ -5,11 +5,15 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#ifdef _WIN32
 #include <io.h>
+#endif
 #include <fcntl.h>
+#include <memory>
 
 #include "LabelDemux.h"
 #include "XmlWriter.h"
+
 
 // Forward declarations
 void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 len);
@@ -68,7 +72,11 @@ int main(int argc, char* argv[])
 	// read file from stdin
 	if (ifile.empty())
 	{
+#ifdef _WIN32
 		_setmode(_fileno(stdin), _O_BINARY);
+#else
+		freopen(NULL, "rb", stdin);
+#endif
 		input.reset(&cin, [](...) {});
 	}
 	else // read the file
