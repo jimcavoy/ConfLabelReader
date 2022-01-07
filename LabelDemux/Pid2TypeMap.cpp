@@ -37,10 +37,8 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
 		case 0x06:
 		case 0x15:
 		{
-			char value[255];
-			char format_identifier[5];
-			memset(value, 0, 255);
-			memset(format_identifier, 0, 5);
+			char value[255]{};
+			char format_identifier[5]{};
 
 			for (auto desc : pe)
 			{
@@ -65,8 +63,7 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
 		break;
 		case 0x1B:
 		{
-			char value[255];
-			memset(value, 0, 255);
+			char value[255]{};
 			for (auto desc : pe)
 			{
 				// registration_descriptor
@@ -122,7 +119,7 @@ Pid2TypeMap::STREAM_TYPE Pid2TypeMap::packetType(unsigned short pid)
 }
 
 /// <summary>
-/// Query whether a program element exists with a stream type.
+/// Query to find a program element with a stream type.
 /// </summary>
 /// <param name="st">A stream type.</param>
 /// <returns>Return program element's ID (PID) that has this stream type; otherwise, return 0 if no program element has this stream type</returns>
