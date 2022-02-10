@@ -1,6 +1,7 @@
 #pragma once
 #include "labeldemux_export.h"
 #include "LabelDemuxTypes.h"
+#include <memory>
 
 class LabelDemuxImpl;
 
@@ -54,9 +55,8 @@ namespace ThetaStream
 		UINT32 labelSize() const;
 
 	private:
-		LabelDemuxImpl* _pimpl;
-		BYTE* _label;
-		UINT32 _length;
+		class Impl;
+		std::unique_ptr<Impl> _pimpl;
 	};
 
 }
