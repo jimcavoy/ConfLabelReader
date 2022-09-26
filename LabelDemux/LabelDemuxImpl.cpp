@@ -53,8 +53,7 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
 		auto it = _pat.find(pckt.PID());
 		if (it->second != 0) // program 0 is assigned to Network Information Table
 		{
-			_pmt.clear();
-			_pmt.add(data, pckt.data_byte());
+			_pmt = lcss::ProgramMapTable(data, pckt.data_byte());
 			// True if the PMT fits in one TS packet
 			if (_pmt.parse())
 			{
