@@ -14,11 +14,22 @@ if (WIN32)
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
 endif()
 
-include(${CMAKE_INSTALL_LIBDIR}/lib/cmake/libmp2t/libmp2tTargets.cmake)
+if (CMAKE_VS_PLATFORM_NAME)
+    include_directories(../../../../lib/mp2tp/libmp2t)
+    add_library(lcss::libmp2t STATIC IMPORTED)
+    set_target_properties(lcss::libmp2t PROPERTIES
+                 IMPORTED_LOCATION ../../../../lib/mp2tp/libmp2t/Release/libmp2t.lib
+                 IMPORTED_LOCATION_DEBUG ../../../../lib/mp2tp/libmp2t/Debug/libmp2t.lib
+                 IMPORTED_CONFIGURATIONS "RELEASE;DEBUG")
+else ()
+    include(${CMAKE_INSTALL_LIBDIR}/lib/cmake/libmp2t/libmp2tTargets.cmake)
+endif()
 
-aux_source_directory(. SRC_LIST)
+file(GLOB SRC_LIST
+    *.h
+    *.cpp)
 add_library(LabelDemux SHARED ${SRC_LIST})
-target_link_libraries(LabelDemux PRIVATE lcss::libmp2t)
+target_link_libraries(LabelDemux PRIVATE lcss::libmp2t wsock32 ws2_32)
 
 generate_export_header(LabelDemux
     EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}/labeldemux_export.h")

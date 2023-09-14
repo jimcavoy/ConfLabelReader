@@ -35,3 +35,17 @@
 /exip
 /ConfLabelReader/out/build/x64-Debug
 /exi2xml/out/build/x64-Debug
+*.vcxproj
+/CMakeFiles
+/exi2xml/CMakeFiles
+/exi2xml/exi2xml.dir
+/ConfLabelReader/CMakeFiles
+/ConfLabelReader/ConfLabelReader.dir
+/LabelDemux/CMakeFiles
+/LabelDemux/LabelDemux.dir
+/LabelDemux/Release
+*.sln
+*.filters
+*.cmake
+*.user
+CMakeCache.txt
