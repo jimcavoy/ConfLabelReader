@@ -12,6 +12,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_USRDLL /D_WINDLL")
     set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
+    set(WS "wsock32 ws2_32")
 endif()
 
 if (CMAKE_VS_PLATFORM_NAME)
@@ -29,7 +30,7 @@ file(GLOB SRC_LIST
     *.h
     *.cpp)
 add_library(LabelDemux SHARED ${SRC_LIST})
-target_link_libraries(LabelDemux PRIVATE lcss::libmp2t wsock32 ws2_32)
+target_link_libraries(LabelDemux PRIVATE lcss::libmp2t ${WS})
 
 generate_export_header(LabelDemux
     EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}/labeldemux_export.h")
