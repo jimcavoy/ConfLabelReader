@@ -1,10 +1,10 @@
 #ifdef WIN32
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include "pch.h"
+#include <LabelDemux/pch.h>
 #include "Pid2TypeMap.h"
 
-#include "libmp2t.h"
+#include <mp2tp/mp2tp.h>
 
 namespace
 {

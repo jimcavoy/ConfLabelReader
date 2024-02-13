@@ -1,8 +1,6 @@
 #pragma once
 #include <map>
 
-#include "LabelDemuxTypes.h"
-
 namespace lcss
 {
 	class ProgramMapTable;
