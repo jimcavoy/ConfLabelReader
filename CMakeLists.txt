@@ -25,6 +25,8 @@ list(APPEND EXTRA_LIBS LabelDemux exi2xml exip)
 
 target_link_libraries(ConfLabelReader PRIVATE ${EXTRA_LIBS})
 
+install(TARGETS ConfLabelReader)
+
 # Test Cases
 enable_testing()
 

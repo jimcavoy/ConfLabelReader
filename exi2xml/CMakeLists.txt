@@ -25,12 +25,3 @@ target_include_directories(
     PRIVATE src/exi2xml
     PUBLIC include
 )
-
-include (GNUInstallDirs)
-
-install(TARGETS exi2xml)
-
-install (
-	DIRECTORY include/
-	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-)
