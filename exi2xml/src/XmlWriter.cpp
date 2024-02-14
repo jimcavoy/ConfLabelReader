@@ -1,7 +1,7 @@
-#include "XmlWriter.h"
+#include <exi2xml/XmlWriter.h>
 
 extern "C" {
-#include "EXIParser.h"
+#include <EXIParser.h>
 }
 
 #include <string>

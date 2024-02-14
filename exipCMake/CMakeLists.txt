@@ -1,6 +1,12 @@
 cmake_minimum_required (VERSION 3.8)
 project(exip)
 
+include(GNUInstallDirs) # Defines the ${CMAKE_INSTALL_INCLUDEDIR} variable.
+
+# This is the default install directory for config-file package cmake files
+# It is relative to install prefix.
+set(exip_INSTALL_CMAKEDIR cmake CACHE PATH "Installation directory for config-file package cmake files")
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -34,7 +40,6 @@ include_directories("./build/gcc/pc")
 list(APPEND LIB_INCLUDE_FILES "./build/gcc/pc/exipConfig.h")
 
 if (WIN32)
-    set(CMAKE_INSTALL_LIBDIR $ENV{APPDATA})
     target_compile_definitions(exip PUBLIC _CRT_SECURE_NO_WARNINGS)
 endif()
 
@@ -46,10 +51,7 @@ target_include_directories(exip
 
 # install the target and create export-set
 install(TARGETS exip 
-    EXPORT exipTargets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
+    EXPORT exip_export   
     INCLUDES DESTINATION include
 )
 
@@ -57,7 +59,7 @@ install(TARGETS exip
 install(FILES ${LIB_INCLUDE_FILES} DESTINATION include)
 
 # generate and install export file
-install(EXPORT exipTargets
-        FILE exipTargets.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/lib/cmake/exip
+install(EXPORT exip_export
+        FILE exip-config.cmake
+        DESTINATION ${exip_INSTALL_CMAKEDIR}
 )

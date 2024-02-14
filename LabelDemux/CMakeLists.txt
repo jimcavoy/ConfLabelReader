@@ -1,8 +1,9 @@
 cmake_minimum_required (VERSION 3.21)
 project(LabelDemux
-	VERSION 0.2.0
-	DESCRIPTION "Confidentiality Metadata Label Demuxer"
-	LANGUAGES C CXX)
+    VERSION 0.2.0
+    DESCRIPTION "Confidentiality Metadata Label Demuxer Library"
+    LANGUAGES C CXX
+)
 
 # set the postfix "d" for the resulting .so or .dll files when building the
 # library in debug mode
@@ -10,8 +11,10 @@ set(CMAKE_DEBUG_POSTFIX
     d
 )
 
+find_package(mp2tp 0 CONFIG REQUIRED)
+
 add_library(LabelDemux SHARED)
-	
+
 # set properties for the target. VERSION set the library version to the project
 # version * SOVERSION set the compatibility  version for the library to the
 # major number of the version
@@ -20,22 +23,23 @@ set_target_properties(
     PROPERTIES VERSION ${PROJECT_VERSION}
                SOVERSION ${PROJECT_VERSION_MAJOR}
 )
-			   
-file(GLOB SRC_LIST
-	src/*.cpp)
-	
+
+file(GLOB SRC_LIST src/*.cpp)
+
 target_sources(LabelDemux PRIVATE ${SRC_LIST})
 
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
 target_compile_features(
     LabelDemux
-    PUBLIC cxx_std_17
+    PUBLIC cxx_std_14
 )
 
 if (WIN32)
-    set(WS "wsock32 ws2_32")
+    set(WS wsock32 ws2_32)
 endif()
+
+target_link_libraries(LabelDemux PRIVATE lcss::mp2tp ${WS})
 
 # set the include directories
 target_include_directories(
@@ -50,7 +54,7 @@ set_property(
     TARGET LabelDemux
     PROPERTY CXX_VISIBILITY_PRESET "hidden"
 )
-# Hide inlined functions by default, reducing the size of the library
+# Hide in-lined functions by default, reducing the size of the library
 set_property(
     TARGET LabelDemux
     PROPERTY VISIBILITY_INLINES_HIDDEN TRUE

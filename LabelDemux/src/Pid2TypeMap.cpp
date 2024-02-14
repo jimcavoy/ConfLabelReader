@@ -4,7 +4,7 @@
 #include <LabelDemux/pch.h>
 #include "Pid2TypeMap.h"
 
-#include <mp2tp/mp2tp.h>
+#include <mp2tp/libmp2tp.h>
 
 namespace
 {

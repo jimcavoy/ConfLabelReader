@@ -50,3 +50,4 @@
 *.user
 CMakeCache.txt
 /LabelDemux/build
+/build
