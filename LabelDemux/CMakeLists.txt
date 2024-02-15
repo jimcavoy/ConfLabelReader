@@ -5,6 +5,10 @@ project(LabelDemux
     LANGUAGES C CXX
 )
 
+if (WIN32)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+endif()
+
 # set the postfix "d" for the resulting .so or .dll files when building the
 # library in debug mode
 set(CMAKE_DEBUG_POSTFIX
