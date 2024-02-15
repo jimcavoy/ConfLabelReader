@@ -34,7 +34,7 @@ message("Working dir: ${CMAKE_CURRENT_BINARY_DIR}")
 
 add_test(NAME ReadN
 	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -olabels.txt
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux/Debug
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 	)
 set_tests_properties(ReadN
 	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 5
@@ -43,7 +43,7 @@ TS Packets read: 1764"
 
 add_test(NAME ReadAll
 	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -olabels.txt
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux/Debug
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 	)
 set_tests_properties(ReadAll
 	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
@@ -52,7 +52,7 @@ TS Packets read: 4258"
 
 add_test(NAME NoLabel
 	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv.ts -olabels.txt
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/LabelDemux/Debug
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 	)
 set_tests_properties(NoLabel
 	PROPERTIES PASS_REGULAR_EXPRESSION "No label in motion imagery file, foreman_cif_klv.ts

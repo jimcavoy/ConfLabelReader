@@ -73,6 +73,4 @@ target_include_directories(
     PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/export"
 )
 
-install(TARGETS LabelDemux
-    LIBRARY DESTINATION bin
-)
+install(TARGETS LabelDemux)
