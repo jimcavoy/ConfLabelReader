@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.21)
 project(LabelDemux
-    VERSION 0.2.0
+    VERSION 1.0.0
     DESCRIPTION "Confidentiality Metadata Label Demuxer Library"
     LANGUAGES C CXX
 )
@@ -11,7 +11,7 @@ set(CMAKE_DEBUG_POSTFIX
     d
 )
 
-find_package(mp2tp 0 CONFIG REQUIRED)
+find_package(mp2tp 1 CONFIG REQUIRED)
 
 add_library(LabelDemux SHARED)
 
