@@ -2,7 +2,7 @@
 #include "Pid2TypeMap.h"
 #include "AccessUnit.h"
 
-#include "libmp2t.h"
+#include <mp2tp/libmp2tp.h>
 
 class LabelDemuxImpl :
 	public lcss::TSParser

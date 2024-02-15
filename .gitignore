@@ -49,3 +49,6 @@
 *.cmake
 *.user
 CMakeCache.txt
+/LabelDemux/build
+/build
+/Testing/Temporary

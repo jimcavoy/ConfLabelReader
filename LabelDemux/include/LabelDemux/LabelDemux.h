@@ -1,6 +1,6 @@
 #pragma once
-#include "labeldemux_export.h"
-#include "LabelDemuxTypes.h"
+#include <LabelDemux/export_labeldemux.hpp>
+#include <LabelDemux/LabelDemuxTypes.h>
 #include <memory>
 
 class LabelDemuxImpl;

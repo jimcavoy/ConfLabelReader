@@ -1,10 +1,10 @@
 #ifdef WIN32
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include "pch.h"
+#include <LabelDemux/pch.h>
 #include "Pid2TypeMap.h"
 
-#include "libmp2t.h"
+#include <mp2tp/libmp2tp.h>
 
 namespace
 {
@@ -123,7 +123,7 @@ Pid2TypeMap::STREAM_TYPE Pid2TypeMap::packetType(unsigned short pid)
 /// </summary>
 /// <param name="st">A stream type.</param>
 /// <returns>Return program element's ID (PID) that has this stream type; otherwise, return 0 if no program element has this stream type</returns>
-UINT16 Pid2TypeMap::hasStreamType(Pid2TypeMap::STREAM_TYPE st)
+unsigned short Pid2TypeMap::hasStreamType(Pid2TypeMap::STREAM_TYPE st)
 {
 	map_type::iterator it;
 	for (it = pid2type_.begin(); it != pid2type_.end(); ++it)

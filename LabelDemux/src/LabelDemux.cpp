@@ -1,8 +1,8 @@
 #ifdef WIN32
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include "pch.h"
-#include "LabelDemux.h"
+#include <LabelDemux/pch.h>
+#include <LabelDemux/LabelDemux.h>
 
 #include "LabelDemuxImpl.h"
 #include <string.h>

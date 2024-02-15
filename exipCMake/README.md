@@ -8,7 +8,7 @@ Steps to build EXIP library:
 
 2. Copy CMakeLists.txt into the exip root directory.
 
-3. Use cmake to build and install the exip library.
+3. Use cmake to build and install the `exip` library.
 
-We only tested this procedure when running Visual Studio 2019 on Windows to 
+We only tested this procedure when running Visual Studio 2022 on Windows to 
 build EXIP library on both Windows and Linux.

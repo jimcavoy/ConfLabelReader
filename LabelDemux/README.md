@@ -4,8 +4,8 @@ The extracted label will require to be decoded so it can be human readable.  The
 EXI encoded label to XML text format.
 
 ## Build
-This library is depended on `libmp2t` library which can be cloned from here:
+This library is depended on `mp2tp` library which can be cloned from here:
 
 https://github.com/jimcavoy/mp2tp
 
-Build and install `libmp2t` library outside the ConfLabelReader folder before building LabelDemux.
+Build and install `mp2tp` library outside the ConfLabelReader folder before building LabelDemux.
