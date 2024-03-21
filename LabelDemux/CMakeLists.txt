@@ -11,9 +11,7 @@ endif()
 
 # set the postfix "d" for the resulting .so or .dll files when building the
 # library in debug mode
-set(CMAKE_DEBUG_POSTFIX
-    d
-)
+set(CMAKE_DEBUG_POSTFIX d)
 
 find_package(mp2tp 1 CONFIG REQUIRED)
 
@@ -22,32 +20,40 @@ add_library(LabelDemux SHARED)
 # set properties for the target. VERSION set the library version to the project
 # version * SOVERSION set the compatibility  version for the library to the
 # major number of the version
-set_target_properties(
-    LabelDemux
-    PROPERTIES VERSION ${PROJECT_VERSION}
-               SOVERSION ${PROJECT_VERSION_MAJOR}
+set_target_properties( LabelDemux
+  PROPERTIES 
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
-file(GLOB SRC_LIST src/*.cpp)
-
-target_sources(LabelDemux PRIVATE ${SRC_LIST})
+target_sources(LabelDemux 
+  PRIVATE
+    src/AccessUnit.cpp
+    src/AccessUnit.h
+    src/LabelDemux.cpp
+    src/LabelDemuxImpl.cpp
+    src/LabelDemuxImpl.h
+    src/pch.cpp
+    src/Pid2TypeMap.cpp
+    src/Pid2TypeMap.h
+    include/LabelDemux/framework.h
+    include/LabelDemux/LabelDemux.h
+    include/LabelDemux/LabelDemuxTypes.h
+    include/LabelDemux/pch.h
+)
 
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
-target_compile_features(
-    LabelDemux
-    PUBLIC cxx_std_14
-)
+target_compile_features( LabelDemux PUBLIC cxx_std_14)
+
+target_link_libraries(LabelDemux PRIVATE lcss::mp2tp)
 
 if (WIN32)
-    set(WS wsock32 ws2_32)
+    target_link_libraries(LabelDemux PRIVATE wsock32 ws2_32)
 endif()
 
-target_link_libraries(LabelDemux PRIVATE lcss::mp2tp ${WS})
-
 # set the include directories
-target_include_directories(
-    LabelDemux
+target_include_directories( LabelDemux
     PRIVATE src/LabelDemux
     PUBLIC include
 )
