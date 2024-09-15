@@ -77,9 +77,9 @@ ConfLabelReader -i C:\Samples\somefile.ts -n 0 -o labels.xml
 ```
 
 ### 3. Using Pipes
-Using [IReflx](https://github.com/jimcavoy/IReflx) to pipe a MPEG-2 TS stream into __ConfLabelReader__ where it then pipes the output
-labels to a file `labels.xml`.
+Using [IReflx](https://github.com/jimcavoy/IReflx) to pipe a MPEG-2 TS stream being transmitted on a multicast address into __ConfLabelReader__ where it then pipes the output
+labels to a file, `labels.xml`.
 
 ```
-IReflx -s 239.3.1.11:50000 | ConfBindLabel > labels.xml
+IReflx -s 239.3.1.11:50000 | ConfLabelReader > labels.xml
 ```
