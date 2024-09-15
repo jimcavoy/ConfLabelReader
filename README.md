@@ -23,6 +23,30 @@ depends on `exi2xml` and `LabelDemux` libraries.
 The project is cross-platform and can be built and run on both Windows and
 Linux platforms.
 
+## How to Build
+This project uses CMake to generate build environment, build, and install the application, __ConfLabelReader__. Do the following steps:
+
+```
+cmake -S . -B ./build -A x64
+```
+```
+cmake --build ./build
+```
+```
+cmake --install ./build
+```
+
+You can add your own cmake parameters that is required for your host development environment.
+
+## To Test
+To test __ConfLabelReader__ build, enter the following:
+
+```
+ctest --test-dir ./build -C <Debug|Release>
+```
+
+The `-C` option specifies the build configuration to test, either `Debug` or `Release` build.
+
 ## Usage
 
 ```
