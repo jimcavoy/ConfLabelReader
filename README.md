@@ -22,3 +22,40 @@ depends on `exi2xml` and `LabelDemux` libraries.
 
 The project is cross-platform and can be built and run on both Windows and
 Linux platforms.
+
+## Usage
+
+```
+Usage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>
+
+Options:
+  -i    Input MPEG transport stream file path.
+  -n    The minimum number of labels to read from the input file before exiting.
+        Set to zero to read all. (default: 0).
+  -o    Optional output file name (default: console).
+  -?    Print this message.
+```
+
+## Examples
+
+### 1. Read a File
+Read the input MPEG-2 TS file `somefile.ts` and print the first Confidentiality Metadata Label to the file `labels.xml` and exit.
+
+```
+ConfLabelReader -i C:\Samples\somefile.ts -n 1 -o labels.xml
+```
+
+### 2. Output All Labels
+Set the `-n` option to zero to print all the labels out to a the file `labels.xml`.  By default, the `-n` option value is 0; therefore, the `-n` option is optional. 
+
+```
+ConfLabelReader -i C:\Samples\somefile.ts -n 0 -o labels.xml
+```
+
+### 3. Using Pipes
+Using [IReflx](https://github.com/jimcavoy/IReflx) to pipe a MPEG-2 TS stream into __ConfLabelReader__ where it then pipes the output
+labels to a file `labels.xml`.
+
+```
+IReflx -s 239.3.1.11:50000 | ConfBindLabel > labels.xml
+```
