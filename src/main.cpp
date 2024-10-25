@@ -13,6 +13,7 @@
 
 #include <LabelDemux/LabelDemux.h>
 #include <exi2xml/XmlWriter.h>
+#include <string.h>
 
 
 // Forward declarations
