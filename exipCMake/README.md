@@ -39,7 +39,7 @@ cmake --build ./out  --config <Debug|Release>
 
 **c. Install**
 
-On Windows, ensure you are Administrator before running the below command.
+On Windows, you need Administrator role privilages before running the below command.
 ```
 cmake --install ./out --config <Debug|Release>
 ```
