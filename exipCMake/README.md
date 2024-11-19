@@ -20,7 +20,7 @@ Copy the `CMakeLists.txt` file into the EXIP root directory.
 
 To build and install the EXIP library do the following steps:
 
-**a. Configure the toolchain**
+**a. Generate the Build System**
 
 On Windows
 ```
