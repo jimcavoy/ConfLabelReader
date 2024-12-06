@@ -13,8 +13,10 @@ the label to XML.  `LabelDemux` library has an external dependency on
 
 * __exi2xml__: A library to transcode EXI-encoded labels to XML text format.  The library is
 generic and can decode EXI labels based on different XML schemas.  This library has 
-an external dependency on [EXIP library](https://github.com/rwl/exip).  See Readme.md in the 
-exipCMake folder how to build and install `exip` library.
+an external dependency on [EXIP library](https://github.com/rwl/exip).  See [Readme.md](./exipCMake/README.md) in the 
+/exipCMake folder how to build and install `exip` library.
+
+* __ExiDecoder__: A console application that test the `exi2xml` library.
 
 * __ConfLabelReader__: A tool that reads a MPEG-2 transport stream from a file or standard input stream (stdin), and
 prints a Confidentiality Metadata Label in XML to a file or standard output stream (stdout).  The tool  
