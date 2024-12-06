@@ -14,6 +14,7 @@ include(GNUInstallDirs)
 # Include sub-projects.
 add_subdirectory (LabelDemux)
 add_subdirectory (exi2xml)
+add_subdirectory (ExiDecoder)
 
 add_executable(ConfLabelReader)
 

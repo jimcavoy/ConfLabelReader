@@ -9,12 +9,15 @@ find_package(exip CONFIG REQUIRED)
 
 add_library(exi2xml STATIC)
 
-target_sources(exi2xml PRIVATE src/XmlWriter.cpp)
+target_sources(exi2xml
+  PRIVATE 
+    src/XmlWriter.cpp
+    include/exi2xml/XmlWriter.h)
 
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
 target_compile_features(
-    LabelDemux
+    exi2xml
     PUBLIC cxx_std_14
 )
 
