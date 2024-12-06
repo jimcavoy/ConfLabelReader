@@ -14,6 +14,7 @@
 
 #include <LabelDemux/LabelDemux.h>
 #include <exi2xml/XmlWriter.h>
+#include <string.h>
 
 // Forward declarations
 void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 len);

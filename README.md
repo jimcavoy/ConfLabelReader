@@ -12,7 +12,7 @@ the label to XML.  `LabelDemux` library has an external dependency on
 [mp2tp library](https://github.com/jimcavoy/mp2tp), which is needed to be built and installed.
 
 * __exi2xml__: A library to transcode EXI-encoded labels to XML text format.  The library is
-generic and can decode EXI labels based on different XML schemas.  This library has 
+generic and can decode EXI labels based on different XML schemas.  This library has
 an external dependency on [EXIP library](https://github.com/rwl/exip).  See [Readme.md](./exipCMake/README.md) in the 
 /exipCMake folder how to build and install `exip` library.
 
@@ -26,19 +26,47 @@ The project is cross-platform and can be built and run on both Windows and
 Linux platforms.
 
 ## How to Build
-This project uses CMake to generate build environment, build, and install the application, __ConfLabelReader__. Do the following steps:
+This project uses CMake to generate build system, build, and install the application, __ConfLabelReader__. Do the following steps:
 
+### 1. Prerequisites
+
+__ConfLabelReader__ depends on external libraries for its implementation.  Therefore, before building the application do the following:
+
+a. Build and install [mp2tp library](https://github.com/jimcavoy/mp2tp).
+
+b. Build and install [EXIP library](https://github.com/rwl/exip).  See [README.md](./exipCMake/README.md) in the 
+[exipCMake](./exipCMake) folder how to build and install `exip` library.
+
+### 2. Generate Build System
+On Windows
 ```
 cmake -S . -B ./build -A x64
 ```
+On Linux 
 ```
-cmake --build ./build
+cmake -S . -B ./build
 ```
+### 3. Build Application
 ```
-cmake --install ./build
+cmake --build ./build --config <Debug|Release>
 ```
 
-You can add your own cmake parameters that is required for your host development environment.
+The `--config` option is either `Debug` for a debug build or `Release` for a release build. `Debug` is the default build configuration if the `--config` option is absent.
+
+### 4. Install the Application
+
+On Windows, you need Administrator role privilages before running the below command.
+```
+cmake --install ./build --config <Debug|Release>
+```
+
+On Linux
+
+```
+sudo cmake --install ./build --config <Debug|Release>
+```
+
+The `--config` option tells CMake either to install a debug or release build.  `Release` is the default build configuration if the `--config` option is absent.
 
 ## To Test
 To test __ConfLabelReader__ build, enter the following:
@@ -79,9 +107,8 @@ ConfLabelReader -i C:\Samples\somefile.ts -n 0 -o labels.xml
 ```
 
 ### 3. Using Pipes
-Using [IReflx](https://github.com/jimcavoy/IReflx) to pipe a MPEG-2 TS stream being transmitted on a multicast address into __ConfLabelReader__ where it then pipes the output
-labels to a file, `labels.xml`.
+Using [IReflxApp](https://github.com/jimcavoy/IReflx) to pipe a live MPEG-2 TS stream being transmitted on a multicast address into __ConfLabelReader__ where it then pipes the output labels to a file, `labels.xml`.
 
 ```
-IReflx -s 239.3.1.11:50000 | ConfLabelReader > labels.xml
+IReflxApp -s 239.3.1.11:50000 | ConfLabelReader > labels.xml
 ```
