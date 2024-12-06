@@ -13,12 +13,14 @@ target_sources(ExiDecoder
 
 target_link_libraries(ExiDecoder PRIVATE exi2xml)
 
-# Test cases
+# Test Cases
+enable_testing()
+
 add_test(NAME DecodeExi
   COMMAND ExiDecoder ${PROJECT_SOURCE_DIR}/../Sample/example1.exi
 )
 
-#set_tests_properties( mp2tdmux_test
-#  PROPERTIES PASS_REGULAR_EXPRESSION 
-#    "Elapsed time is"
-#)
+set_tests_properties( DecodeExi
+  PROPERTIES PASS_REGULAR_EXPRESSION 
+    "<ns1:GenericValue>AUS</ns1:GenericValue>"
+)
