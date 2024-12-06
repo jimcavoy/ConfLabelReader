@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.21)
 project(exip)
 
 include(GNUInstallDirs) # Defines the ${CMAKE_INSTALL_INCLUDEDIR} variable.
@@ -48,6 +48,8 @@ target_include_directories(exip
           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
           "$<INSTALL_INTERFACE:include>"
           )
+          
+set_target_properties(exip PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # install the target and create export-set
 install(TARGETS exip 
