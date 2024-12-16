@@ -3,6 +3,9 @@ The ConfLabelReader project is a collection of libraries and a tool to extract
 STANAG 4774/4778 Confidentiality Metadata Labels from a STANAG 4609 Motion
 Imagery stream (MPEG-2 Transport Stream).
 
+__ConfLabelReader__ extracts and reads the STANAG 4774 Confidentiality Metadata Label based
+on [STANAG 4609 Binding Profile](./BindingProfile.md).
+
 The project is composed of multiple sub-projects, which are as follows:
 
 * __LabelDemux__: A library that demultiplexes the MPEG-2 transport stream, and 
