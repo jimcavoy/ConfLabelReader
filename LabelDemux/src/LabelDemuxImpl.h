@@ -4,6 +4,15 @@
 
 #include <mp2tp/libmp2tp.h>
 
+#include <functional>
+
+#include <string>
+
+namespace ThetaStream
+{
+    typedef std::function<void(std::string, const BYTE*, size_t)> OnLabel;
+}
+
 class LabelDemuxImpl :
     public lcss::TSParser
 {
@@ -21,6 +30,10 @@ public:
 
     Pid2TypeMap::STREAM_TYPE labelEncoding() const;
 
+    void setCallback(ThetaStream::OnLabel cb);
+
+    void executeCallback();
+
 private:
     void processStartPayload(const lcss::TransportPacket& pckt);
     void processPayload(const lcss::TransportPacket& pckt);
@@ -32,5 +45,6 @@ private:
     AccessUnit _labelAccessUnit;
     AccessUnit _label;
     bool _hasLabel;
+    ThetaStream::OnLabel _onLabelCallback;
 };
 

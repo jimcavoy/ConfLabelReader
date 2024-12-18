@@ -23,7 +23,7 @@ public:
 
     void clear() { _sodb.clear(); }
 
-    unsigned int length() const { return (unsigned int)_sodb.size(); }
+    size_t length() const { return _sodb.size(); }
 
     iterator begin() { return _sodb.begin(); }
     iterator end() { return _sodb.end(); }

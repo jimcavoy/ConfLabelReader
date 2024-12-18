@@ -2,6 +2,8 @@
 #include <LabelDemux/export_labeldemux.hpp>
 #include <LabelDemux/LabelDemuxTypes.h>
 #include <memory>
+#include <functional>
+#include <string>
 
 class LabelDemuxImpl;
 
@@ -14,49 +16,53 @@ class LabelDemuxImpl;
 /// </summary>
 namespace ThetaStream
 {
-	class LABELDEMUX_EXPORT LabelDemux
-	{
-	public:
-		LabelDemux();
-		~LabelDemux();
+    typedef std::function<void(std::string, const BYTE*, size_t)> OnLabel;
 
-		/// <summary>
-		/// Parse the input byte stream and extract the Confidentiality Metadata
-		/// Label.  Call the label() function after this function returns to 
-		/// retrieve the EXI encoded Confidentiality Metadata Label.
-		/// </summary>
-		/// <param name="transport_stream">An array of bytes containing 
-		/// MPEG-2 Transport Stream</param>
-		/// <param name="len">The number of bytes of the transport_stream
-		/// parameter.  It is recommended the len parameter should a multiple of 
-		/// 188 bytes.  For example, len = 188 * 49.</param>
-		void parse(const BYTE* transport_stream, UINT32 len);
+    class LABELDEMUX_EXPORT LabelDemux
+    {
+    public:
+        LabelDemux();
+        ~LabelDemux();
 
-		/// <summary>
-		/// Call this function to determine if the stream passed into the parse()
-		/// function contains a Confidentiality Metadata Label program element.
-		/// </summary>
-		/// <returns>Returns true if the transport stream passed into the parse()
-		/// function contains a Confidentiality Metadata Label program
-		/// element; otherwise, false.</returns>
-		bool hasLabelStream() const;
+        /// <summary>
+        /// Parse the input byte stream and extract the Confidentiality Metadata
+        /// Label.  Call the label() function after this function returns to 
+        /// retrieve the EXI encoded Confidentiality Metadata Label.
+        /// </summary>
+        /// <param name="transport_stream">An array of bytes containing 
+        /// MPEG-2 Transport Stream</param>
+        /// <param name="len">The number of bytes of the transport_stream
+        /// parameter.  It is recommended the len parameter should a multiple of 
+        /// 188 bytes.  For example, len = 188 * 49.</param>
+        void parse(const BYTE* transport_stream, UINT32 len);
 
-		/// <summary>
-		/// Returns an EXI encoded Confidentiality Metadata Label from the last parse()
-		/// invocation.  Can be null if no label was found in the last parse() call.
-		/// </summary>
-		/// <returns>Returns EXI encoded label; otherwise, null.</returns>
-		const BYTE* label() const;
+        /// <summary>
+        /// Call this function to determine if the stream passed into the parse()
+        /// function contains a Confidentiality Metadata Label program element.
+        /// </summary>
+        /// <returns>Returns true if the transport stream passed into the parse()
+        /// function contains a Confidentiality Metadata Label program
+        /// element; otherwise, false.</returns>
+        bool hasLabelStream() const;
 
-		/// <summary>
-		/// Returns the size of the label in bytes. 
-		/// </summary>
-		/// <returns></returns>
-		UINT32 labelSize() const;
+        /// <summary>
+        /// Returns an EXI encoded Confidentiality Metadata Label from the last parse()
+        /// invocation.  Can be null if no label was found in the last parse() call.
+        /// </summary>
+        /// <returns>Returns EXI encoded label; otherwise, null.</returns>
+        const BYTE* label() const;
 
-	private:
-		class Impl;
-		std::unique_ptr<Impl> _pimpl;
-	};
+        /// <summary>
+        /// Returns the size of the label in bytes. 
+        /// </summary>
+        /// <returns></returns>
+        UINT32 labelSize() const;
+
+        void setLabelCallback(OnLabel cb);
+
+    private:
+        class Impl;
+        std::unique_ptr<Impl> _pimpl;
+    };
 
 }

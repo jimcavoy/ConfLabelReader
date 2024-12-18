@@ -58,6 +58,33 @@ Pid2TypeMap::STREAM_TYPE LabelDemuxImpl::labelEncoding() const
     return Pid2TypeMap::STREAM_TYPE::UNKNOWN;
 }
 
+void LabelDemuxImpl::setCallback(ThetaStream::OnLabel cb)
+{
+    _onLabelCallback = cb;
+}
+
+void LabelDemuxImpl::executeCallback()
+{
+    if (_onLabelCallback)
+    {
+        switch (labelEncoding())
+        {
+        case Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI:
+        {
+            _onLabelCallback(std::string{ "$EXI" }, (BYTE*) _label.data(), _label.length());
+            break;
+        }
+        case Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML:
+        {
+            _onLabelCallback(std::string{ "$XML" }, (BYTE*)_label.data(), _label.length());
+            break;
+        }
+        default:
+            _onLabelCallback(std::string{ "UNKNOWN" }, 0, 0);
+        }
+    }
+}
+
 void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
 {
     const BYTE* data = pckt.getData();
@@ -93,7 +120,9 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
             Pid2TypeMap::STREAM_TYPE st = _pmtHelper.packetType(pckt.PID());
             if (st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML)
             {
-                _label = std::move(_labelAccessUnit);
+                _label = _labelAccessUnit;
+                _labelAccessUnit.clear();
+                executeCallback();
                 _labelAccessUnit.insert((char*)data + bytesParsed, pckt.data_byte() - bytesParsed);
             }
         }
