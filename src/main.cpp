@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    std::cout << "Labels read: " << labelsRead << std::endl;
+    std::cout << "\nLabels read: " << labelsRead << std::endl;
     std::cout << "TS Packets read: " << packetsRead << std::endl;
     return 0;
 }
