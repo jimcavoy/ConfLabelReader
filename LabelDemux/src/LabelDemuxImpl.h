@@ -5,30 +5,32 @@
 #include <mp2tp/libmp2tp.h>
 
 class LabelDemuxImpl :
-	public lcss::TSParser
+    public lcss::TSParser
 {
 public:
-	LabelDemuxImpl();
-	~LabelDemuxImpl();
+    LabelDemuxImpl();
+    ~LabelDemuxImpl();
 
-	virtual void parse(const BYTE* stream, unsigned long len);
+    virtual void parse(const BYTE* stream, unsigned long len);
 
-	virtual void onPacket(lcss::TransportPacket& pckt);
+    virtual void onPacket(lcss::TransportPacket& pckt);
 
-	bool hasLabel() const;
+    bool hasLabel() const;
 
-	const AccessUnit& label() const;
+    const AccessUnit& label() const;
 
-private:
-	void processStartPayload(const lcss::TransportPacket& pckt);
-	void processPayload(const lcss::TransportPacket& pckt);
+    Pid2TypeMap::STREAM_TYPE labelEncoding() const;
 
 private:
-	lcss::ProgramAssociationTable _pat;
-	lcss::ProgramMapTable _pmt;
-	Pid2TypeMap _pmtHelper;
-	AccessUnit _exiSample;
-	AccessUnit _label;
-	bool _hasLabel;
+    void processStartPayload(const lcss::TransportPacket& pckt);
+    void processPayload(const lcss::TransportPacket& pckt);
+
+private:
+    lcss::ProgramAssociationTable _pat;
+    lcss::ProgramMapTable _pmt;
+    Pid2TypeMap _pmtHelper;
+    AccessUnit _labelAccessUnit;
+    AccessUnit _label;
+    bool _hasLabel;
 };
 
