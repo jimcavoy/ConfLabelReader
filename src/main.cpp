@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 
     Banner();
 
-    const char* usage = "\nUsage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>";
+    const char* usage = "Usage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>";
     const char* opts = "  -i\tInput MPEG transport stream file path.\n \
  -n\tThe minimum number of labels to read from the input file before exiting.\n \
    \tSet to zero to read all. (default: 0).\n \
@@ -120,6 +120,8 @@ int main(int argc, char* argv[])
 
             demux.parse(buffer, (UINT32)len);
 
+            // Defined a lambda function to handle events when the LabelDemux encounters a label
+            // in the transport stream.
             demux.setLabelCallback([&](std::string encoding, const BYTE* label, size_t len)
                 {
                     if (len == 0 || label == 0)
@@ -159,7 +161,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    std::cout << "\nLabels read: " << labelsRead << std::endl;
+    std::cout << "Labels read: " << labelsRead << std::endl;
     std::cout << "TS Packets read: " << packetsRead << std::endl;
     return 0;
 }
@@ -231,5 +233,5 @@ std::shared_ptr<std::istream> createInput(std::string filepath)
 void Banner()
 {
     std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.2.0" << std::endl;
-    std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl;
+    std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }

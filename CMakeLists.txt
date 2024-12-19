@@ -54,3 +54,12 @@ set_tests_properties(NoLabel
 Labels read: 0
 TS Packets read: 49"
 )
+
+add_test(NAME ReadXml
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774xml.ts -olabels.txt
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
+)
+set_tests_properties(ReadXml
+	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
+TS Packets read: 4282"
+)
