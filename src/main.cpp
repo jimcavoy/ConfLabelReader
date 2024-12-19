@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
                     {
                         std::string xml;
                         std::copy(label, label + len, std::back_inserter(xml));
-                        oStream << xml.c_str() << endl;
+                        oStream << xml << endl;
                     }
                     labelsRead++;
                 }
