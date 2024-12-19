@@ -17,10 +17,11 @@
 #include <string.h>
 
 // Forward declarations
-void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 len);
+void printExiLabel(std::ostream& ostrm, const BYTE* label, size_t len);
 bool canStop(int num, int limit);
 std::string getFilename(std::string& path);
 std::shared_ptr<std::istream> createInput(std::string filepath);
+void Banner();
 
 // main
 int main(int argc, char* argv[])
@@ -36,6 +37,8 @@ int main(int argc, char* argv[])
     int labelsRead = 0;
     char c;
     int limit = 0;
+
+    Banner();
 
     const char* usage = "Usage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>";
     const char* opts = "  -i\tInput MPEG transport stream file path.\n \
@@ -116,15 +119,30 @@ int main(int argc, char* argv[])
             packetsRead += (int)len / tsPacketSize;
 
             demux.parse(buffer, (UINT32)len);
-            if (demux.hasLabelStream())
-            {
-                // Label can be null because the buffer had no label
-                if (demux.label() != nullptr)
+
+            // Defined a lambda function to handle events when the LabelDemux encounters a label
+            // in the transport stream.
+            demux.setLabelCallback([&](std::string encoding, const BYTE* label, size_t len)
                 {
-                    printLabel(oStream, demux.label(), demux.labelSize());
+                    if (len == 0 || label == 0)
+                        return;
+
+                    if (encoding == "$EXI")
+                    {
+                        printExiLabel(oStream, label, len);
+                    }
+                    else if (encoding == "$XML")
+                    {
+                        std::string xml;
+                        std::copy(label, label + len, std::back_inserter(xml));
+                        oStream << xml.c_str() << endl;
+                    }
                     labelsRead++;
                 }
+            );
 
+            if (demux.hasLabelStream())
+            {
                 if (canStop(labelsRead, limit))
                 {
                     break;
@@ -148,7 +166,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void printLabel(std::ostream& ostrm, const BYTE* label, UINT32 length)
+void printExiLabel(std::ostream& ostrm, const BYTE* label, size_t length)
 {
     std::stringstream out;
     ThetaStream::XmlWriter decoder(out);
@@ -210,4 +228,10 @@ std::shared_ptr<std::istream> createInput(std::string filepath)
         input.reset(tsfile);
     }
     return input;
+}
+
+void Banner()
+{
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.2.0" << std::endl;
+    std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }

@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.21)
 
 project (ConfLabelReader
-	VERSION 1.0.0
+	VERSION 1.2.0
 	DESCRIPTION "A program that parses STANAG 4609 Motion Imagery Stream for STANAG 4774 Confidentiality Metadata Labels."
 	LANGUAGES C CXX
 )
@@ -28,7 +28,7 @@ install(TARGETS ConfLabelReader)
 enable_testing()
 
 add_test(NAME ReadN
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -olabels.txt
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -olabelsReadN.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadN
@@ -37,7 +37,7 @@ TS Packets read: 1764"
 )
 
 add_test(NAME ReadAll
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -olabels.txt
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -olabelsReadAll.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadAll
@@ -53,4 +53,13 @@ set_tests_properties(NoLabel
 	PROPERTIES PASS_REGULAR_EXPRESSION "No label in motion imagery file, foreman_cif_klv.ts
 Labels read: 0
 TS Packets read: 49"
+)
+
+add_test(NAME ReadXml
+	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774xml.ts -olabelsReadXml.txt
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
+)
+set_tests_properties(ReadXml
+	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
+TS Packets read: 4282"
 )

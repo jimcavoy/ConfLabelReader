@@ -12,20 +12,31 @@ AccessUnit::AccessUnit()
 
 AccessUnit::AccessUnit(char* sodb, unsigned int len)
 {
-	std::copy(sodb, sodb + len, std::back_inserter(_sodb));
+    std::copy(sodb, sodb + len, std::back_inserter(_sodb));
 }
 
 AccessUnit::AccessUnit(const AccessUnit& src)
 {
-	_sodb.clear();
-	std::copy(src.begin(), src.end(), std::back_inserter(_sodb));
+    _sodb.clear();
+    std::copy(src.begin(), src.end(), std::back_inserter(_sodb));
 }
 
 AccessUnit& AccessUnit::operator=(const AccessUnit& rhs)
 {
-	AccessUnit temp(rhs);
-	swap(temp);
-	return *this;
+    AccessUnit temp(rhs);
+    swap(temp);
+    return *this;
+}
+
+AccessUnit::AccessUnit(AccessUnit&& src)
+    :_sodb(std::move(src._sodb))
+{
+}
+
+AccessUnit& AccessUnit::operator==(AccessUnit&& rhs)
+{
+    _sodb = std::move(rhs._sodb);
+    return *this;
 }
 
 AccessUnit::~AccessUnit()
@@ -35,10 +46,10 @@ AccessUnit::~AccessUnit()
 
 void AccessUnit::insert(char* sodb, unsigned int len)
 {
-	std::copy(sodb, sodb + len, std::back_inserter(_sodb));
+    std::copy(sodb, sodb + len, std::back_inserter(_sodb));
 }
 
 void AccessUnit::swap(AccessUnit& src)
 {
-	_sodb.swap(src._sodb);
+    _sodb.swap(src._sodb);
 }

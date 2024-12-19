@@ -4,31 +4,47 @@
 
 #include <mp2tp/libmp2tp.h>
 
+#include <functional>
+
+#include <string>
+
+namespace ThetaStream
+{
+    typedef std::function<void(std::string, const BYTE*, size_t)> OnLabel;
+}
+
 class LabelDemuxImpl :
-	public lcss::TSParser
+    public lcss::TSParser
 {
 public:
-	LabelDemuxImpl();
-	~LabelDemuxImpl();
+    LabelDemuxImpl();
+    ~LabelDemuxImpl();
 
-	virtual void parse(const BYTE* stream, unsigned long len);
+    virtual void parse(const BYTE* stream, unsigned long len);
 
-	virtual void onPacket(lcss::TransportPacket& pckt);
+    virtual void onPacket(lcss::TransportPacket& pckt);
 
-	bool hasLabel() const;
+    bool hasLabel() const;
 
-	const AccessUnit& label() const;
+    const AccessUnit& label() const;
+
+    Pid2TypeMap::STREAM_TYPE labelEncoding() const;
+
+    void setCallback(ThetaStream::OnLabel cb);
+
+    void executeCallback();
 
 private:
-	void processStartPayload(const lcss::TransportPacket& pckt);
-	void processPayload(const lcss::TransportPacket& pckt);
+    void processStartPayload(const lcss::TransportPacket& pckt);
+    void processPayload(const lcss::TransportPacket& pckt);
 
 private:
-	lcss::ProgramAssociationTable _pat;
-	lcss::ProgramMapTable _pmt;
-	Pid2TypeMap _pmtHelper;
-	AccessUnit _exiSample;
-	AccessUnit _label;
-	bool _hasLabel;
+    lcss::ProgramAssociationTable _pat;
+    lcss::ProgramMapTable _pmt;
+    Pid2TypeMap _pmtHelper;
+    AccessUnit _labelAccessUnit;
+    AccessUnit _label;
+    bool _hasLabel;
+    ThetaStream::OnLabel _onLabelCallback;
 };
 
