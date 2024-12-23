@@ -88,9 +88,11 @@ void LabelDemuxImpl::executeCallback()
 void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
 {
     const BYTE* data = pckt.getData();
-    if (pckt.PID() == 0 && _pat.size() == 0) // Program Association Table
+    if (pckt.PID() == 0) // Program Association Table
     {
-        _pat.parse(data);
+        lcss::ProgramAssociationTable pat;
+        pat.parse(data);
+        _pat = pat;
     }
     else if (_pat.find(pckt.PID()) != _pat.end())
     {
