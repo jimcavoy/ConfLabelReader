@@ -21,6 +21,7 @@ void printExiLabel(std::ostream& ostrm, const BYTE* label, size_t len);
 bool canStop(int num, int limit);
 std::string getFilename(std::string& path);
 std::shared_ptr<std::istream> createInput(std::string filepath);
+std::shared_ptr<std::ostream> createOutput(std::string filepath);
 void Banner();
 
 // main
@@ -109,7 +110,7 @@ int main(int argc, char* argv[])
     try
     {
         shared_ptr<istream> input = createInput(ifile);
-        ofstream oStream(ofile);
+        shared_ptr<ostream> output = createOutput(ofile);
 
         while (input->good())
         {
@@ -129,13 +130,13 @@ int main(int argc, char* argv[])
 
                     if (encoding == "$EXI")
                     {
-                        printExiLabel(oStream, label, len);
+                        printExiLabel(*output, label, len);
                     }
                     else if (encoding == "$XML")
                     {
                         std::string xml;
                         std::copy(label, label + len, std::back_inserter(xml));
-                        oStream << xml << endl;
+                        *output << xml << endl;
                     }
                     labelsRead++;
                 }
@@ -230,8 +231,30 @@ std::shared_ptr<std::istream> createInput(std::string filepath)
     return input;
 }
 
+std::shared_ptr<std::ostream> createOutput(std::string filepath)
+{
+    std::shared_ptr<std::ostream> output;
+
+    if (filepath.empty())
+    {
+        output.reset(&std::cout, [](...) {});
+    }
+    else // read the file
+    {
+        std::ofstream* tsfile = new std::ofstream(filepath);
+        if (!tsfile->is_open())
+        {
+            std::string err("Fail to open file: ");
+            err += getFilename(filepath);
+            throw std::ios_base::failure(err);
+        }
+        output.reset(tsfile);
+    }
+    return output;
+}
+
 void Banner()
 {
-    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.2.0" << std::endl;
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.2.1" << std::endl;
     std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }
