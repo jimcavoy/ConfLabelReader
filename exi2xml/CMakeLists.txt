@@ -29,10 +29,12 @@ target_compile_features(
 
 target_link_libraries(exi2xml PRIVATE exip)
 
-target_include_directories(
-    exi2xml
-    PRIVATE src/exi2xml
-    PUBLIC include
+target_include_directories(exi2xml
+    PRIVATE 
+      src
+      include/exi2xml
+    PUBLIC 
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
 install(TARGETS exi2xml
