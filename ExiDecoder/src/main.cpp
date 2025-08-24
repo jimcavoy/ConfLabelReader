@@ -31,10 +31,9 @@ int main(int argc, char* argv[])
     exiFile.read(buff, size);
     exiFile.close();
 
-    stringstream out;
-    ThetaStream::XmlWriter decoder(out);
-    decoder.decode(buff, size);
+    ThetaStream::XmlWriter decoder;
+    const char* xmldoc = decoder.decode(buff, size);
 
-    cout << out.str();
+    cout << xmldoc;
     return 0;
 }
