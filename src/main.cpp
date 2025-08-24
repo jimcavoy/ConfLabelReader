@@ -169,16 +169,15 @@ int main(int argc, char* argv[])
 
 void printExiLabel(std::ostream& ostrm, const BYTE* label, size_t length)
 {
-    std::stringstream out;
-    ThetaStream::XmlWriter decoder(out);
-    decoder.decode((char*)label, length);
+    ThetaStream::XmlWriter decoder;
+    const char* xmldoc = decoder.decode((char*)label, length);
     if (ostrm.good())
     {
-        ostrm << out.str();
+        ostrm << xmldoc;
     }
     else
     {
-        std::cout << out.str();
+        std::cout << xmldoc;
     }
 }
 
