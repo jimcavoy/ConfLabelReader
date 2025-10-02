@@ -40,16 +40,16 @@ a. Build and install [mp2tp library](https://github.com/jimcavoy/mp2tp).
 b. Build and install [EXIP library](https://github.com/rwl/exip).  See [README.md](./exipCMake/README.md) in the 
 [exipCMake](./exipCMake) folder how to build and install `exip` library.
 
-### 2. Generate Build System
+### 2. Generate a Build System
 On Windows
 ```
-cmake -S . -B ./build -A x64
+cmake --preset=windows-base
 ```
 On Linux 
 ```
-cmake -S . -B ./build
+cmake --preset=linux-base
 ```
-### 3. Build Application
+### 3. Build the Application
 ```
 cmake --build ./build --config <Debug|Release>
 ```
@@ -83,6 +83,9 @@ The `-C` option specifies the build configuration to test, either `Debug` or `Re
 ## Usage
 
 ```
+ConfLabelReader: Confidentiality Label Reader Application v1.3.0
+Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com
+
 Usage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>
 
 Options:
