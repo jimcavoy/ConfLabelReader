@@ -115,7 +115,7 @@ Program_element() {
     registration_descriptor(){
         descriptor_tag                      0x05                 8
         descriptor_length                   0x08                 8
-        format_identifier                   <$XML|$EXI>          32
+        format_identifier                   <$XML|$EXI|$BRL>     32
         additional_identification_info      0x34373734 (4774)    32
     }
     Metadata_descriptor(){
@@ -123,7 +123,7 @@ Program_element() {
         descriptor_length                   0x0E                 8
         metadata_application_format         0x0104               16
         metadata_format                     0xFF                 8
-        metadata_format_identifier          <$XML|$EXI>          32
+        metadata_format_identifier          <$XML|$EXI|$BRL>     32
         metadata_service_id                 0x01                 8
         decoder_config_flags                001                  3
         DSM-CC_flag                         0 (false)            1
@@ -146,8 +146,8 @@ The highlighted statements indicate requirements.
 
 **descriptor_length:**  An 8-bit field specifying the number of bytes of the descriptor following this field.
 
-**format_identifier:**  `The systems binding the label to a transport stream SHALL set the format_identifier field to
-$XML if the label is text-based XML format; otherwise, set the field to $EXI if the label is EXI encoded in the registration_descriptor`.  Presently, the four-byte value is not included in the list of registered MPEG TS 
+**format_identifier:**  `The systems binding the label to a transport stream SHALL set the format_identifier field in the registration_descriptor to
+$XML if the label is text-based XML format, to $EXI if the label is EXI encoded or to $BRL if the label was Brotli compressed`.  Presently, the four-byte value is not included in the list of registered MPEG TS 
 identifiers [11] and may need to be registered in the future. 
 
 **additional_identification_info:** `The systems binding the label to a transport stream SHALL set the additional_identification_info field to 4774 (0x34 0x37 0x37 0x34) in the registration_descriptor.`  This field informs the label’s XML schema is defined by STANAG 4774 [1].  In the future, this field could signal other XML schemas, such as STANAG 4778 [2] or NSA ISM.
@@ -157,8 +157,8 @@ identifiers [11] and may need to be registered in the future.
 **metadata_format:** An 8-bit field that indicates the metadata encoding.  Set the field to 0xFF, which signals the decoder to read the metadata_format_identifier field [6] for label encoding.
 
 **metadata_format_identifier:**  `The systems binding the label to a transport stream SHALL set the 
-metadata_format_identifier field to $XML if the label is text-based XML format; otherwise, set the field to 
-$EXI if the label is EXI encoded in the Metadata_descriptor.`  Presently, the four-byte value is not included in the
+metadata_format_identifier field in the Metadata_descriptor to $XML if the label is text-based XML format, to 
+$EXI if the label is EXI encoded or to $BRL if the label is Brotli compressed.`  Presently, the four-byte value is not included in the
 list of registered MPEG TS identifiers [11], and the future may need to be registered. 
 
 **metadata_service_id:**  `The systems binding the label to a transport stream SHALL set the metadata_service_id field to 0x01.`  In MISB ST 1402, this field has been assigned the value of 0x00.   Therefore, this standard increases the value by one, so it does not conflict with the KLV metadata service.

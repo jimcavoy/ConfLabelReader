@@ -44,7 +44,6 @@ private:
     Pid2TypeMap _pmtHelper;
     AccessUnit _labelAccessUnit;
     AccessUnit _label;
-    bool _hasLabel;
     ThetaStream::OnLabel _onLabelCallback;
 };
 

@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.21)
 project(LabelDemux
-    VERSION 1.2.1
+    VERSION 1.3.0
     DESCRIPTION "Confidentiality Metadata Label Demuxer Library"
     LANGUAGES C CXX
 )

@@ -63,6 +63,10 @@ void Pid2TypeMap::update(const lcss::ProgramMapTable& pmt)
             {
                 pid2type_.insert({ pe.pid(), STREAM_TYPE::CONFLABEL_XML });
             }
+            else if (strcmp(format_identifier, "$BRL") == 0)
+            {
+                pid2type_.insert({ pe.pid(), STREAM_TYPE::CONFLABEL_BRL });
+            }
         }
         break;
         case 0x1B:
