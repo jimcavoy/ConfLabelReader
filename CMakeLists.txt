@@ -24,11 +24,15 @@ target_sources(ConfLabelReader PRIVATE src/main.cpp)
 
 target_link_libraries(ConfLabelReader PRIVATE LabelDemux exi2xml unofficial::brotli::brotlidec)
 
+if (WIN32)
 install(TARGETS ConfLabelReader
   RUNTIME_DEPENDENCIES
     PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
     POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
     DIRECTORIES "$<TARGET_FILE_DIR:ConfLabelReader>")
+else ()
+install(TARGETS ConfLabelReader)
+endif ()
 
 # Test Cases
 enable_testing()
