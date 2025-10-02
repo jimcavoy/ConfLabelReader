@@ -1,6 +1,7 @@
 ﻿// ConfLabelReader.cpp : Defines the entry point for the application.
 //
 
+#include <cstdint>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,6 +15,7 @@
 
 #include <LabelDemux/LabelDemux.h>
 #include <exi2xml/XmlWriter.h>
+#include <brotli/decode.h>
 #include <string.h>
 
 // Forward declarations
@@ -23,6 +25,8 @@ std::string getFilename(std::string& path);
 std::shared_ptr<std::istream> createInput(std::string filepath);
 std::shared_ptr<std::ostream> createOutput(std::string filepath);
 void Banner();
+std::string decompressBrotliLabel(const uint8_t* input, size_t input_size);
+bool hasBOM(const std::string& xmlText);
 
 // main
 int main(int argc, char* argv[])
@@ -137,6 +141,17 @@ int main(int argc, char* argv[])
                         std::string xml;
                         std::copy(label, label + len, std::back_inserter(xml));
                         *output << xml << endl;
+                    }
+                    else if (encoding == "$BRL")
+                    {
+                        std::string xml = decompressBrotliLabel(label, len);
+                        int offset = 0;
+                        offset = hasBOM(xml) ? 3 : 0; // Do not output BOM
+                        *output << xml.c_str() + offset << endl;
+                    }
+                    else
+                    {
+                        *output << "UNKNOWN" << endl;
                     }
                     labelsRead++;
                 }
@@ -254,6 +269,37 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
 
 void Banner()
 {
-    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.2.1" << std::endl;
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v1.3.0" << std::endl;
     std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
+}
+
+std::string decompressBrotliLabel(const uint8_t* input, size_t input_size)
+{
+    std::string label;
+    size_t output_size = input_size * 3;
+    uint8_t* output = new uint8_t[output_size];
+
+    // Decompress the data
+    BrotliDecoderResult result = BrotliDecoderDecompress(
+        input_size,          // Input size
+        input,               // Input data
+        &output_size,        // Output size (updated by the function)
+        output               // Output buffer
+    );
+
+    // Check the result
+    if (result == BROTLI_DECODER_RESULT_SUCCESS)
+    {
+        const char* str = (char*)output;
+        label.assign(str, str + output_size);
+        label.push_back(0);
+    }
+
+    delete[] output;
+    return label;
+}
+
+bool hasBOM(const std::string& xmlText)
+{
+    return xmlText[0] == (char)0xef && xmlText[1] == (char)0xbb && xmlText[2] == (char)0xbf;
 }

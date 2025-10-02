@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
+            },
+             "architecture": {
+                "value": "x64"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name" : "linux-base",
+            "generator": "Unix Makefiles",
+            "binaryDir" : "${sourceDir}/build",
+             "cacheVariables": {
+                "CMAKE_BUILD_TYPE" : "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS" : "TRUE",
+                "CMAKE_C_COMPILER" : "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER" : "/usr/bin/g++",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            }
+        }
+    ]
+}

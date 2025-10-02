@@ -2,10 +2,10 @@
 #include "LabelDemuxImpl.h"
 
 #include <sstream>
+
 /////////////////////////////////////////////////////////////////////////////
 
 LabelDemuxImpl::LabelDemuxImpl()
-    :_hasLabel(true)
 {
 }
 
@@ -33,7 +33,18 @@ void LabelDemuxImpl::onPacket(lcss::TransportPacket& pckt)
 
 bool LabelDemuxImpl::hasLabel() const
 {
-    return _hasLabel;
+    uint16_t pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI);
+    if (pid == 0)
+    {
+        pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML);
+    }
+
+    if (pid == 0)
+    {
+        pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL);
+    }
+
+    return pid == 0 ? false : true;
 }
 
 const AccessUnit& LabelDemuxImpl::label() const
@@ -53,6 +64,12 @@ Pid2TypeMap::STREAM_TYPE LabelDemuxImpl::labelEncoding() const
     if (pid)
     {
         return Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML;
+    }
+
+    pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL);
+    if (pid)
+    {
+        return Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL;
     }
 
     return Pid2TypeMap::STREAM_TYPE::UNKNOWN;
@@ -77,6 +94,11 @@ void LabelDemuxImpl::executeCallback()
         case Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML:
         {
             _onLabelCallback(std::string{ "$XML" }, (BYTE*)_label.data(), _label.length());
+            break;
+        }
+        case Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL:
+        {
+            _onLabelCallback(std::string{ "$BRL" }, (BYTE*)_label.data(), _label.length());
             break;
         }
         default:
@@ -104,12 +126,6 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
             if (_pmt.parse())
             {
                 _pmtHelper.update(_pmt);
-                uint16_t pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI);
-                if (pid == 0)
-                {
-                    pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML);
-                }
-                _hasLabel = pid == 0 ? false : true;
             }
         }
     }
@@ -120,7 +136,9 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
         if (bytesParsed > 0)
         {
             Pid2TypeMap::STREAM_TYPE st = _pmtHelper.packetType(pckt.PID());
-            if (st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML)
+            if (st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI 
+                || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML
+                || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL)
             {
                 _label = _labelAccessUnit;
                 _labelAccessUnit.clear();
@@ -142,17 +160,13 @@ void LabelDemuxImpl::processPayload(const lcss::TransportPacket& pckt)
         if (_pmt.parse())
         {
             _pmtHelper.update(_pmt);
-            uint16_t pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI);
-            if (pid == 0)
-            {
-                pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML);
-            }
-            _hasLabel = pid == 0 ? false : true;
         }
     }
 
     Pid2TypeMap::STREAM_TYPE st = _pmtHelper.packetType(pckt.PID());
-    if (st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML)
+    if (st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI 
+        || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_XML
+        || st == Pid2TypeMap::STREAM_TYPE::CONFLABEL_BRL)
     {
         _labelAccessUnit.insert((char*)data, pckt.data_byte());
     }

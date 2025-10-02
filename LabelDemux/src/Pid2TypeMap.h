@@ -18,7 +18,8 @@ public:
         AUDIO,
         KLVA,
         CONFLABEL_EXI,
-        CONFLABEL_XML
+        CONFLABEL_XML,
+        CONFLABEL_BRL
     };
 
 public:
