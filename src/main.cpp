@@ -2,6 +2,7 @@
 //
 
 #include "CmdLineParser.h"
+#include "UdpOStream.h"
 #include <cstdint>
 #include <iostream>
 #include <fstream>
@@ -232,7 +233,7 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
     }
     else if (urlView.scheme() == "udp")
     {
-
+        fname = filepath;
     }
     else
     {
@@ -243,6 +244,11 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
     if (fname.empty())
     {
         output.reset(&std::cout, [](...) {});
+    }
+    else if (urlView.scheme() == "udp")
+    {
+        UdpOStream* udpStrm = new UdpOStream(fname);
+        output.reset(udpStrm);
     }
     else // read the file
     {

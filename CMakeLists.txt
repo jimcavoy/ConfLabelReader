@@ -26,7 +26,10 @@ target_sources(ConfLabelReader
   PRIVATE 
     src/main.cpp
     src/CmdLineParser.cpp
-    src/CmdLineParser.h)
+    src/UdpOStream.cpp
+    src/CmdLineParser.h
+    src/UdpOStream.h
+)
 
 target_link_libraries(ConfLabelReader
   PRIVATE
