@@ -31,6 +31,17 @@ target_sources(ConfLabelReader
     src/UdpOStream.h
 )
 
+if (WIN32)
+target_link_libraries(ConfLabelReader
+  PRIVATE
+    LabelDemux
+    exi2xml
+    unofficial::brotli::brotlidec
+    Boost::program_options
+    Boost::url
+    wsock32
+    ws2_32)
+else()
 target_link_libraries(ConfLabelReader
   PRIVATE
     LabelDemux
@@ -38,6 +49,7 @@ target_link_libraries(ConfLabelReader
     unofficial::brotli::brotlidec
     Boost::program_options
     Boost::url)
+endif()
 
 if (WIN32)
 install(TARGETS ConfLabelReader

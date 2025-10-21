@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include <ostream>
 #include <string>
 
@@ -12,10 +14,12 @@ public:
 protected:
     int overflow(int c) override;
 
+public:
+    class Impl;
+
 private:
-    std::string _label;
-    int _prev{ 0 };
-    int _cur{ 0 };
+    friend class UdpOStream;
+    std::unique_ptr<Impl> _pimpl;
 };
 
 class UdpOStream : public std::ostream 
