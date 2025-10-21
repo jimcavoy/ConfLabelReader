@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.21)
 
 project (ConfLabelReader
-	VERSION 1.3.0
+	VERSION 2.0.0
 	DESCRIPTION "A program that parses STANAG 4609 Motion Imagery Stream for STANAG 4774 Confidentiality Metadata Labels."
 	LANGUAGES C CXX
 )
@@ -17,12 +17,24 @@ add_subdirectory (exi2xml)
 add_subdirectory (ExiDecoder)
 
 find_package(unofficial-brotli CONFIG REQUIRED)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED program_options url)
 
 add_executable(ConfLabelReader)
 
-target_sources(ConfLabelReader PRIVATE src/main.cpp)
+target_sources(ConfLabelReader 
+  PRIVATE 
+    src/main.cpp
+    src/CmdLineParser.cpp
+    src/CmdLineParser.h)
 
-target_link_libraries(ConfLabelReader PRIVATE LabelDemux exi2xml unofficial::brotli::brotlidec)
+target_link_libraries(ConfLabelReader
+  PRIVATE
+    LabelDemux
+    exi2xml
+    unofficial::brotli::brotlidec
+    Boost::program_options
+    Boost::url)
 
 if (WIN32)
 install(TARGETS ConfLabelReader
