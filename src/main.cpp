@@ -23,7 +23,7 @@
 // Forward declarations
 std::string decompressExiLabel(const BYTE* label, size_t len);
 bool canStop(int num, int limit);
-std::string getFilename(std::string& path);
+std::string getFilename(const std::string& path);
 std::shared_ptr<std::istream> createInput(std::string filepath);
 std::shared_ptr<std::ostream> createOutput(std::string filepath);
 void Banner();
@@ -136,7 +136,7 @@ bool canStop(int num, int limit)
     return num >= limit ? true : false;
 }
 
-std::string getFilename(std::string& path)
+std::string getFilename(const std::string& path)
 {
     std::string fname;
     std::string::const_reverse_iterator it;
