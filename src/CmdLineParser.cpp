@@ -29,7 +29,7 @@ public:
 
     Impl(const Impl& src);
 
-    std::string _input{ "file://-" };
+    std::string _input{ "-" };
     std::string _output{ "file://-" };
     int _number{ 0 };
 };
@@ -90,16 +90,18 @@ int CmdLineParser::parse(int argc, char* argv[])
     try
     {
         po::options_description desc("Allowed options");
+        po::positional_options_description pos_desc;
+        pos_desc.add("input", 1);
 
         desc.add_options()
             ("help,?", "Produce help message.")
-            ("input,i", po::value<string>(&_pimpl->_input), "Input URL for the Motion Imagery stream. (default: file://-).")
+            ("input,i", po::value<string>(&_pimpl->_input), "Input Motion Imagery stream or file. (default: -).")
             ("numberOfReads,n", po::value<int>(&_pimpl->_number), "The minimum number of labels to read from the input Motion Imagery stream before exiting. Set to zero to read all. (default: 0).")
             ("output,o", po::value<string>(&_pimpl->_output), "Output URL for the Motion Imagery stream. (default: file://-).")
             ;
 
         po::command_line_parser parser{ argc, argv };
-        parser.options(desc);
+        parser.options(desc).positional(pos_desc);
         po::parsed_options poptions = parser.run();
 
         po::variables_map vm;

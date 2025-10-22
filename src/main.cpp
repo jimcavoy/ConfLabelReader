@@ -36,13 +36,10 @@ int main(int argc, char* argv[])
     using namespace std;
     const int tsPacketSize = 188;  // MPEG-2 TS packet size
     const int bufsize = tsPacketSize * 49; // Read multiple TS packets
-    std::string ifile;
-    std::string ofile;
     BYTE buffer[bufsize]{};
     ThetaStream::LabelDemux demux;
     int packetsRead = 0;
     int labelsRead = 0;
-    char c;
 
     Banner();
 
@@ -73,31 +70,30 @@ int main(int argc, char* argv[])
                     if (len == 0 || label == 0)
                         return;
 
+                    std::string xml;
                     if (encoding == "$EXI")
                     {
-                        std::string xml = decompressExiLabel(label, len);
-                        int offset = 0;
-                        offset = hasBOM(xml) ? 3 : 0; // Do not output BOM
-                        *output << xml.c_str() + offset << endl;
+                        xml = decompressExiLabel(label, len);
                     }
                     else if (encoding == "$XML")
                     {
-                        std::string xml;
                         std::copy(label, label + len, std::back_inserter(xml));
-                        *output << xml << endl;
                     }
                     else if (encoding == "$BRL")
                     {
-                        std::string xml = decompressBrotliLabel(label, len);
-                        int offset = 0;
-                        offset = hasBOM(xml) ? 3 : 0; // Do not output BOM
-                        *output << xml.c_str() + offset << endl;
+                        xml = decompressBrotliLabel(label, len);
                     }
                     else
                     {
                         *output << "UNKNOWN" << endl;
                     }
-                    labelsRead++;
+
+                    if (!xml.empty())
+                    {
+                        int offset = hasBOM(xml) ? 3 : 0; // Do not output BOM
+                        *output << xml.c_str() + offset << endl;
+                        labelsRead++;
+                    }
                 }
             );
 
@@ -110,7 +106,7 @@ int main(int argc, char* argv[])
             }
             else
             {
-                std::cout << "No label in motion imagery file, " << getFilename(ifile) << std::endl;
+                std::cout << "No label in motion imagery file, " << getFilename(cmdline.input()) << std::endl;
                 break;
             }
         }
@@ -157,35 +153,9 @@ std::string getFilename(std::string& path)
 
 std::shared_ptr<std::istream> createInput(std::string filepath)
 {
-    using namespace boost;
-    namespace url = boost::urls;
-    std::string fname;
-
-    system::result<url_view> res = url::parse_uri(filepath);
-    if (!res.has_value())
-    {
-        char szErr[255]{};
-        sprintf(szErr, "Malformed URL, %s", filepath.c_str());
-        throw std::runtime_error(szErr);
-    }
-
-    url::url_view urlView = res.value();
-    if (urlView.scheme() == "file")
-    {
-#ifdef _WIN32
-        fname = urlView.encoded_path().data() + 1;
-#else
-        fname = urlView.encoded_path().data();
-#endif
-    }
-    else
-    {
-        throw std::runtime_error("Only support file scheme.");
-    }
-
     std::shared_ptr<std::istream> input;
     // read file from stdin
-    if (fname.empty())
+    if (filepath == "-")
     {
 #ifdef _WIN32
         _setmode(_fileno(stdin), _O_BINARY);
@@ -196,11 +166,11 @@ std::shared_ptr<std::istream> createInput(std::string filepath)
     }
     else // read the file
     {
-        std::ifstream* tsfile = new std::ifstream(fname, std::ios::binary);
+        std::ifstream* tsfile = new std::ifstream(filepath, std::ios::binary);
         if (!tsfile->is_open())
         {
             std::string err("Fail to open file: ");
-            err += getFilename(fname);
+            err += getFilename(filepath);
             throw std::ios_base::failure(err);
         }
         input.reset(tsfile);
