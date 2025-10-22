@@ -83,33 +83,47 @@ The `-C` option specifies the build configuration to test, either `Debug` or `Re
 ## Usage
 
 ```
-ConfLabelReader: Confidentiality Label Reader Application v1.3.0
+ConfLabelReader: Confidentiality Label Reader Application v2.0.0
 Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com
 
-Usage: ConfLabelReader -i <MPEG_transport_stream_file> -n <Count> -o <Output_file>
-
-Options:
-  -i    Input MPEG transport stream file path.
-  -n    The minimum number of labels to read from the input file before exiting.
-        Set to zero to read all. (default: 0).
-  -o    Optional output file name (default: console).
-  -?    Print this message.
+Allowed options:
+  -? [ --help ]              Produce help message.
+  -i [ --input ] arg         Input Motion Imagery stream or file. (default: -).
+  -n [ --numberOfReads ] arg The minimum number of labels to read from the
+                             input Motion Imagery stream before exiting. Set to
+                             zero to read all. (default: 0).
+  -o [ --output ] arg        Output URL for the Motion Imagery stream.
+                             (default: file://-).
 ```
 
+If the `--output` option URL's __scheme__ is `udp`, it can have an optional query component with the following attribute-value pairs :
+
+- __ttl__. The time-to-live parameter.
+- __localaddr__. Transmit on a network adapter with an assigned IP address.
+
+For example, you want to stream using UDP on a multicast address of 239.3.1.11 with a time-to-live of 16 and transmit
+onto a network adapter with an assigned IP address of 192.168.0.24:
+
+```
+--output=udp://239.3.1.11:50000?ttl=16&localaddr=192.168.0.24
+```
+
+__Note__: Presently, __ConfLabelReader__ only supports UDP protocol.
 ## Examples
 
 ### 1. Read a File
 Read the input MPEG-2 TS file `somefile.ts` and print the first Confidentiality Metadata Label to the file `labels.xml` and exit.
+If the first option is the input file, the `-i|--input` option flag is optional.
 
 ```
-ConfLabelReader -i C:\Samples\somefile.ts -n 1 -o labels.xml
+ConfLabelReader C:\Samples\somefile.ts -n 1 -o file:///C:/Output/labels.xml
 ```
 
 ### 2. Output All Labels
 Set the `-n` option to zero to print all the labels out to a the file `labels.xml`.  By default, the `-n` option value is 0; therefore, the `-n` option is optional. 
 
 ```
-ConfLabelReader -i C:\Samples\somefile.ts -n 0 -o labels.xml
+ConfLabelReader -i ~/Samples/somefile.ts -n 0 -o file://~/Output/labels.xml
 ```
 
 ### 3. Using Pipes
@@ -117,4 +131,11 @@ Using [IReflxApp](https://github.com/jimcavoy/IReflx) to pipe a live MPEG-2 TS s
 
 ```
 IReflxApp -s 239.3.1.11:50000 | ConfLabelReader > labels.xml
+```
+
+### 4. Transmit Labels over UDP
+In this example, using [IReflxApp](https://github.com/jimcavoy/IReflx) to pipe a live MPEG-2 TS stream being transmitted on a multicast address into __ConfLabelReader__ where it then pipes the output labels over UDP.
+
+```
+IReflxApp -s 239.3.1.11:50000 | ConfLabelReader -o udp://239.3.3.1:50000?ttl=16
 ```
