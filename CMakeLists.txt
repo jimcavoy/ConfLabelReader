@@ -64,8 +64,14 @@ endif ()
 # Test Cases
 enable_testing()
 
+if (WIN32)
+set(SCHEME "file:///")
+else ()
+set(SCHEME "file://")
+endif ()
+
 add_test(NAME ReadN
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -olabelsReadN.txt
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -n5 -o${SCHEME}${PROJECT_SOURCE_DIR}/build/labelsReadN.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadN
@@ -74,7 +80,7 @@ TS Packets read: 1764"
 )
 
 add_test(NAME ReadAll
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -olabelsReadAll.txt
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774.ts -o${SCHEME}${PROJECT_SOURCE_DIR}/build/labelsReadAll.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadAll
@@ -83,7 +89,7 @@ TS Packets read: 4258"
 )
 
 add_test(NAME NoLabel
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv.ts -olabels.txt
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv.ts -o${SCHEME}${PROJECT_SOURCE_DIR}/build/labels.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(NoLabel
@@ -93,7 +99,7 @@ TS Packets read: 49"
 )
 
 add_test(NAME ReadXml
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774xml.ts -olabelsReadXml.txt
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774xml.ts -o${SCHEME}${PROJECT_SOURCE_DIR}/build/labelsReadXml.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadXml
@@ -102,7 +108,7 @@ TS Packets read: 4282"
 )
 
 add_test(NAME ReadBrotli
-	COMMAND ConfLabelReader -i${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774brl.ts -olabelsReadBrl.txt
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774brl.ts -o${SCHEME}${PROJECT_SOURCE_DIR}/build/labelsReadBrl.txt
 	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
 )
 set_tests_properties(ReadBrotli
