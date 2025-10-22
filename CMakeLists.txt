@@ -115,3 +115,12 @@ set_tests_properties(ReadBrotli
 	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
 TS Packets read: 4258"
 )
+
+add_test(NAME SendUDP
+	COMMAND ConfLabelReader ${PROJECT_SOURCE_DIR}/Sample/foreman_cif_klv_4774brl.ts -o udp://239.3.3.11:50000?ttl=1
+	WORKING_DIRECTORY ${UNIT_TEST_BIN_OUTPUT_DIR}
+)
+set_tests_properties(SendUDP
+	PROPERTIES PASS_REGULAR_EXPRESSION "Labels read: 11
+TS Packets read: 4258"
+)
