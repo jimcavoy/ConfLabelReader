@@ -137,5 +137,5 @@ IReflxApp -s 239.3.1.11:50000 | ConfLabelReader > labels.xml
 In this example, using [IReflxApp](https://github.com/jimcavoy/IReflx) to pipe a live MPEG-2 TS stream being transmitted on a multicast address into __ConfLabelReader__ where it then pipes the output labels over UDP.
 
 ```
-IReflxApp -s 239.3.1.11:50000 | ConfLabelReader udp://239.3.3.1:50000?ttl=16
+IReflxApp -s 239.3.1.11:50000 | ConfLabelReader -o udp://239.3.3.1:50000?ttl=16
 ```
