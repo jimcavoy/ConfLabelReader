@@ -16,8 +16,7 @@ the label to XML.  `LabelDemux` library has an external dependency on
 
 * __exi2xml__: A library to transcode EXI-encoded labels to XML text format.  The library is
 generic and can decode EXI labels based on different XML schemas.  This library has
-an external dependency on [EXIP library](https://github.com/rwl/exip).  See [Readme.md](./exipCMake/README.md) in the 
-/exipCMake folder how to build and install `exip` library.
+an external dependency on [EXIP library](https://github.com/jimcavoy/exip).
 
 * __ExiDecoder__: A console application that test the `exi2xml` library.
 
@@ -33,14 +32,57 @@ This project uses CMake to generate build system, build, and install the applica
 
 ### 1. Prerequisites
 
-__ConfLabelReader__ depends on external libraries for its implementation.  Therefore, before building the application do the following:
+__ConfLabelReader__ depends on external libraries for its implementation.  You should clone and build these external projects outside this project.
 
-a. Build and install [mp2tp library](https://github.com/jimcavoy/mp2tp).
+#### 1.a MPEG-2 TS Library
+Build and install [mp2tp library](https://github.com/jimcavoy/mp2tp).  See the project's README which describes how to build and install the library.
 
-b. Build and install [EXIP library](https://github.com/rwl/exip).  See [README.md](./exipCMake/README.md) in the 
-[exipCMake](./exipCMake) folder how to build and install `exip` library.
+#### 1.b EXIP Library
+To build and install the EXIP library do the following steps:
+
+__Step a.__ Clone the EXIP project.
+```
+git clone https://github.com/jimcavoy/exip.git
+```
+
+Change directory to the `exip` folder.
+```
+cd exip
+```
+
+__Step b.__ Generate a build toolchain.
+
+```
+cmake --preset=<windows-base|linux-base>
+```
+
+Set the `--preset` option to `windows-base` if you are on a Windows host machine; otherwise, `linux-base` if you are on a linux host machine.
+
+__Step c.__ Build the library.
+```
+cmake --build ./out
+```
+
+__Step d.__ Install the EXIP library.
+
+On Windows, open a console window as a Administrator.
+```
+cmake --install ./out
+```
+
+On Linux, enter the following in the terminal.
+```
+sudo cmake --install ./out
+```
+
+#### 1.c Install vcpkg
+
+The __ConfLabelReader__ project depends on other third party libraries.  The project uses a [vcpkg](https://vcpkg.io/en/) package manager to download these dependencies.
+Ensure that __vcpkg__ is install on your development machine and the environment variable, `VCPKG_ROOT`, is set the file path where __vcpkg__ is installed.
 
 ### 2. Generate a Build System
+You will need to generate a toolchain to build the __ConfLabelReader__.  At the root of the project directory enter the following on the terminal:
+
 On Windows
 ```
 cmake --preset=windows-base
