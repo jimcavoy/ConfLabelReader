@@ -75,6 +75,11 @@ On Linux, enter the following in the terminal.
 sudo cmake --install ./out
 ```
 
+#### 1.c Install vcpkg
+
+The __ConfLabelReader__ project depends on other third party libraries.  The project uses a [vcpkg](https://vcpkg.io/en/) package manager to download these dependencies.
+Ensure that __vcpkg__ is install on your development machine and the environment variable, `VCPKG_ROOT`, is set the file path where __vcpkg__ is installed.
+
 ### 2. Generate a Build System
 You will need to generate a toolchain to build the __ConfLabelReader__.  At the root of the project directory enter the following on the terminal:
 
