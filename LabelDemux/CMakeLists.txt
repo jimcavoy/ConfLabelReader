@@ -42,6 +42,8 @@ target_sources(LabelDemux
     include/LabelDemux/pch.h
 )
 
+set_target_properties(LabelDemux PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
 target_compile_features( LabelDemux PUBLIC cxx_std_14)
