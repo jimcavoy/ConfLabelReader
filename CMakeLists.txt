@@ -61,6 +61,17 @@ else ()
 install(TARGETS ConfLabelReader)
 endif ()
 
+# Create Package
+set(CPACK_PACKAGE_NAME "ConfLabelReader")
+set(CPACK_PACKAGE_VENDOR "ThetaStream Consulting")
+set(CPACK_PACKAGE_CONTACT "jimcavoy@thetastream.com")
+set(CPACK_PACKAGE_DESCRIPTION, "Read a STANAG 4774/4778 Confidentiality Metadata Labels from a STANAG 4609 Motion Imagery stream.")
+if (UNIX)
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(CPACK_GENERATOR "DEB")
+endif ()
+include(CPack)
+
 # Test Cases
 enable_testing()
 
