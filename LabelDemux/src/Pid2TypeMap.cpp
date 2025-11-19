@@ -141,3 +141,8 @@ unsigned short Pid2TypeMap::hasStreamType(Pid2TypeMap::STREAM_TYPE st) const
     }
     return 0;
 }
+
+bool Pid2TypeMap::isEmpty() const
+{
+    return pid2type_.empty();
+}

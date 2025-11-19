@@ -33,6 +33,13 @@ void LabelDemuxImpl::onPacket(lcss::TransportPacket& pckt)
 
 bool LabelDemuxImpl::hasLabel() const
 {
+    // Precondition
+    // Return true until a Program Map Table has be seen
+    if (_pmtHelper.isEmpty())
+    {
+        return true;
+    }
+
     uint16_t pid = _pmtHelper.hasStreamType(Pid2TypeMap::STREAM_TYPE::CONFLABEL_EXI);
     if (pid == 0)
     {
@@ -118,7 +125,7 @@ void LabelDemuxImpl::processStartPayload(const lcss::TransportPacket& pckt)
     }
     else if (_pat.find(pckt.PID()) != _pat.end())
     {
-        auto it = _pat.find(pckt.PID());
+         auto it = _pat.find(pckt.PID());
         if (it->second != 0) // program 0 is assigned to Network Information Table
         {
             _pmt = lcss::ProgramMapTable(data, pckt.data_byte());

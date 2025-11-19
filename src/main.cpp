@@ -29,6 +29,7 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath);
 void Banner();
 std::string decompressBrotliLabel(const uint8_t* input, size_t input_size);
 bool hasBOM(const std::string& xmlText);
+std::string preprocessXml(const char* xml);
 
 // main
 int main(int argc, char* argv[])
@@ -90,8 +91,8 @@ int main(int argc, char* argv[])
 
                     if (!xml.empty())
                     {
-                        int offset = hasBOM(xml) ? 3 : 0; // Do not output BOM
-                        *output << xml.c_str() + offset << endl;
+                        std::string pxml = preprocessXml(xml.c_str());
+                        *output << pxml  << endl;
                         labelsRead++;
                     }
                 }
@@ -236,7 +237,7 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
 
 void Banner()
 {
-    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.0" << std::endl;
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.1" << std::endl;
     std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }
 
@@ -270,3 +271,26 @@ bool hasBOM(const std::string& xmlText)
 {
     return xmlText[0] == (char)0xef && xmlText[1] == (char)0xbb && xmlText[2] == (char)0xbf;
 }
+
+bool hasXmlDecl(const std::string& xmlText)
+{
+    return xmlText[0] == (char)0x3c && xmlText[1] == (char)0x3f;
+}
+
+std::string preprocessXml(const char* xml)
+{
+    int offset = hasBOM(xml) ? 3 : 0;
+    std::string ret(xml+offset);
+    if (hasXmlDecl(ret))
+    {
+        return ret;
+    }
+    else
+    {
+        std::string ret2("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+        ret2 += ret;
+        return ret2;
+    }
+    return std::string();
+}
+

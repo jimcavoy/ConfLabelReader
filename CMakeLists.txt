@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.21)
 
 project (ConfLabelReader
-	VERSION 2.0.0
+	VERSION 2.0.1
 	DESCRIPTION "A program that parses STANAG 4609 Motion Imagery Stream for STANAG 4774 Confidentiality Metadata Labels."
 	LANGUAGES C CXX
 )
