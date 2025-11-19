@@ -33,6 +33,7 @@ public:
     void update(const lcss::ProgramMapTable& pmt);
     STREAM_TYPE packetType(unsigned short pid);
     unsigned short hasStreamType(STREAM_TYPE st) const;
+    bool isEmpty() const;
 
 private:
     map_type pid2type_;
