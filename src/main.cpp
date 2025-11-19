@@ -236,7 +236,7 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
 
 void Banner()
 {
-    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.0" << std::endl;
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.1" << std::endl;
     std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }
 
