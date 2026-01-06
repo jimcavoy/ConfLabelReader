@@ -20,6 +20,8 @@ target_sources(exi2xml
     src/XmlWriter.cpp
     include/exi2xml/XmlWriter.h)
 
+set_target_properties(exi2xml PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
 target_compile_features(
