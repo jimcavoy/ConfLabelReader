@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.21)
 project(LabelDemux
-    VERSION 1.3.1
+    VERSION 1.3.2
     DESCRIPTION "Confidentiality Metadata Label Demuxer Library"
     LANGUAGES C CXX
 )
@@ -46,7 +46,7 @@ set_target_properties(LabelDemux PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # define the C++ standard needed to compile this library and make it visible to
 # dependers
-target_compile_features( LabelDemux PUBLIC cxx_std_14)
+target_compile_features( LabelDemux PUBLIC cxx_std_20)
 
 target_link_libraries(LabelDemux PRIVATE lcss::mp2tp)
 

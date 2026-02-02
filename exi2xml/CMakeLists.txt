@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.21)
 
 project(exi2xml
-	VERSION 1.0.0
+	VERSION 1.0.1
 	DESCRIPTION "EXI to XML writer library"
 	LANGUAGES C CXX)
 
@@ -26,7 +26,7 @@ set_target_properties(exi2xml PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # dependers
 target_compile_features(
     exi2xml
-    PUBLIC cxx_std_14
+    PUBLIC cxx_std_20
 )
 
 target_link_libraries(exi2xml PRIVATE exip)
