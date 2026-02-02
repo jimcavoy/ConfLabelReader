@@ -237,8 +237,8 @@ std::shared_ptr<std::ostream> createOutput(std::string filepath)
 
 void Banner()
 {
-    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.1" << std::endl;
-    std::cerr << "Copyright (c) 2025 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
+    std::cerr << "ConfLabelReader: Confidentiality Label Reader Application v2.0.2" << std::endl;
+    std::cerr << "Copyright (c) 2026 ThetaStream Consulting, jimcavoy@thetastream.com" << std::endl << std::endl;
 }
 
 std::string decompressBrotliLabel(const uint8_t* input, size_t input_size)
